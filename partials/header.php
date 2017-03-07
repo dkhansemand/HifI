@@ -38,7 +38,7 @@
             <li><a href="index.php">Forside</a></li>
             <?php
               ## Get all categories and list in menu
-              $query = $conn->newQuery("SELECT id, categoryName FROM hifi_category ORDER BY id ASC;");
+              $query = $conn->newQuery("SELECT id, categoryName FROM hifi_category WHERE isActive = 1 ORDER BY id ASC;");
               ## Check if the statement can be executed
               if($query->execute()){
                 ## Loop through results and in format ASSOC

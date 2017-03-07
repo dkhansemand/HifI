@@ -2,6 +2,7 @@
     ##Include header (With navigation)
     include './partials/header.php';
 ?>
+<br><br><br>
     <aside id="myCarousel" class="container carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>

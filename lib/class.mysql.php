@@ -6,7 +6,6 @@ class dbconnector {
             PASSWORD = '',
             DATABASE = 'hifishop';
 
-
     private function newPDOConn(){
          try{
             $PDOConn = new PDO("mysql:host=".self::SERVER.";dbname=".self::DATABASE, self::USERNAME, self::PASSWORD,

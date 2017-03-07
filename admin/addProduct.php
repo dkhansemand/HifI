@@ -66,7 +66,7 @@
 	<div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="" class="navbar-brand">HIFI - BACKEND</a>
+          <a href="./" class="navbar-brand">HIFI - BACKEND</a>
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -75,7 +75,7 @@
         </div>
         <nav class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">
-            <li><a href="./index.php">Forside</a></li>
+            <li><a href="../index.php">Forside</a></li>
             <li><a href="addProduct.php">Tilføj produkt</a></li>
         </nav>
       </div>
@@ -93,8 +93,7 @@
     </div>
      <div class="input-group">
         <label for="">Produkt beskrivelse</label>
-        <textarea name="productDetails" class="form-control" col="15" rows="10">
-            bh etue tisi blandiatue dolum dolessim ea feummy nostrud delendi pissequ ametum in etuerit etue tatiscipit nos ex el init lore tatet do conullum diamet venim dolore facidunt dit doluptat
+        <textarea name="productDetails" class="form-control" col="15" rows="10">bh etue tisi blandiatue dolum dolessim ea feummy nostrud delendi pissequ ametum in etuerit etue tatiscipit nos ex el init lore tatet do conullum diamet venim dolore facidunt dit doluptat
         </textarea>
     </div>
     <div class="input-group">
