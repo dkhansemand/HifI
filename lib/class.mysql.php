@@ -1,14 +1,11 @@
 <?php
 
 class dbconnector {
-/*    const   SERVER = 'localhost',
+    const   SERVER = 'localhost',
             USERNAME = 'root',
             PASSWORD = '',
-            DATABASE = 'hifishop';*/
-  const SERVER = 'hanssonsjjsocial.mysql.db';
-    const USERNAME = 'hanssonsjjsocial';
-    const PASSWORD = 'myS0cial';
-    const DATABASE = 'hanssonsjjsocial';
+            DATABASE = 'hifishop';
+
 
     private function newPDOConn(){
          try{
