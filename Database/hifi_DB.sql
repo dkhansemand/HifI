@@ -24,11 +24,11 @@ DROP TABLE IF EXISTS `hifi_category`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hifi_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `categoryName` varchar(28) NOT NULL,
+  `categoryName` varchar(28) CHARACTER SET latin1 COLLATE latin1_danish_ci NOT NULL,
   `isActive` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `categoryName_UNIQUE` (`categoryName`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +56,7 @@ CREATE TABLE `hifi_contactmessages` (
   `message` text NOT NULL,
   `submitDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +65,7 @@ CREATE TABLE `hifi_contactmessages` (
 
 LOCK TABLES `hifi_contactmessages` WRITE;
 /*!40000 ALTER TABLE `hifi_contactmessages` DISABLE KEYS */;
+INSERT INTO `hifi_contactmessages` VALUES (1,'Mr test','test@test.dk','Dette er test','Dette er en test af kontakt system,','2017-03-08 11:32:59');
 /*!40000 ALTER TABLE `hifi_contactmessages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,7 +135,7 @@ CREATE TABLE `hifi_news` (
   PRIMARY KEY (`id`),
   KEY `fk_pictureId_idx` (`pictureId`),
   CONSTRAINT `fk_pictureId` FOREIGN KEY (`pictureId`) REFERENCES `hifi_pictures` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,6 +144,7 @@ CREATE TABLE `hifi_news` (
 
 LOCK TABLES `hifi_news` WRITE;
 /*!40000 ALTER TABLE `hifi_news` DISABLE KEYS */;
+INSERT INTO `hifi_news` VALUES (1,'Overskrift','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit',42,'2017-03-08 11:45:39'),(2,'Overskrift','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit',42,'2017-03-08 11:45:39'),(3,'Overskrift','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit',42,'2017-03-08 11:45:39'),(4,'Overskrift','Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit',42,'2017-03-08 11:45:39');
 /*!40000 ALTER TABLE `hifi_news` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,7 +161,7 @@ CREATE TABLE `hifi_pictures` (
   `dateAdded` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `title` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +170,7 @@ CREATE TABLE `hifi_pictures` (
 
 LOCK TABLES `hifi_pictures` WRITE;
 /*!40000 ALTER TABLE `hifi_pictures` DISABLE KEYS */;
-INSERT INTO `hifi_pictures` VALUES (1,'noProduct.png','2017-03-07 12:02:13','noProduct.png'),(5,'Creek_OBH_22_Passive_Preamp.jpg','2017-03-07 12:02:11','Creek_OBH_22_Passive_Preamp.jpg'),(6,'Exp_2010S_CD.gif','2017-03-07 12:02:12','Exp_2010S_CD.gif'),(7,'Manley_Stingray.jpg','2017-03-07 12:02:12','Manley_Stingray.jpg'),(8,'Pro_ject_Debut_3_bl.jpg','2017-03-07 12:02:12','Pro_ject_Debut_3_bl.jpg'),(9,'Pro_ject_Debut_III_red_1.jpg','2017-03-07 12:02:12','Pro_ject_Debut_III_red_1.jpg'),(10,'Pro_ject_Debut_III_yellow_1.jpg','2017-03-07 12:02:12','Pro_ject_Debut_III_yellow_1.jpg'),(11,'Pro_ject_rpm10.jpg','2017-03-07 12:02:12','Pro_ject_rpm10.jpg'),(12,'Pro_ject_rpm_5.jpg','2017-03-07 12:02:12','Pro_ject_rpm_5.jpg'),(13,'Project_prebox.jpg','2017-03-07 12:02:12','Project_prebox.jpg'),(14,'boesendorfer_vcs_wall.gif','2017-03-07 12:02:12','boesendorfer_vcs_wall.gif'),(15,'creek_Destiny_CD.jpg','2017-03-07 12:02:12','creek_Destiny_CD.jpg'),(16,'creek_a50I.jpg','2017-03-07 12:02:12','creek_a50I.jpg'),(17,'creek_classic.jpg','2017-03-07 12:02:12','creek_classic.jpg'),(18,'creek_classic5350SE.jpg','2017-03-07 12:02:12','creek_classic5350SE.jpg'),(19,'creek_classic_cd.jpg','2017-03-07 12:02:12','creek_classic_cd.jpg'),(20,'creek_destinyamp.jpg','2017-03-07 12:02:12','creek_destinyamp.jpg'),(21,'creek_evo_cd.jpg','2017-03-07 12:02:12','creek_evo_cd.jpg'),(22,'epos_m5.gif','2017-03-07 12:02:12','epos_m5.gif'),(23,'exposure_2010S.jpg','2017-03-07 12:02:12','exposure_2010S.jpg'),(24,'harbeth_hl7es2.jpg','2017-03-07 12:02:12','harbeth_hl7es2.jpg'),(25,'harbeth_monitor30.jpg','2017-03-07 12:02:12','harbeth_monitor30.jpg'),(26,'harbeth_p3es2.jpg','2017-03-07 12:02:12','harbeth_p3es2.jpg'),(27,'jolida_JD102b.jpg','2017-03-07 12:02:13','jolida_JD102b.jpg'),(28,'jolida_JD202a.jpg','2017-03-07 12:02:13','jolida_JD202a.jpg'),(29,'jolida_JD300b.jpg','2017-03-07 12:02:13','jolida_JD300b.jpg'),(30,'jolida_JD302b.jpg','2017-03-07 12:02:13','jolida_JD302b.jpg'),(31,'manley_mahi.jpg','2017-03-07 12:02:13','manley_mahi.jpg'),(32,'manley_neoclassic300b.jpg','2017-03-07 12:02:13','manley_neoclassic300b.jpg'),(33,'manley_snapper.jpg','2017-03-07 12:02:13','manley_snapper.jpg'),(35,'parasound_classic7100.jpg','2017-03-07 12:02:13','parasound_classic7100.jpg'),(36,'parasound_d200.jpg','2017-03-07 12:02:13','parasound_d200.jpg'),(37,'parasound_haloa23.jpg','2017-03-07 12:02:13','parasound_haloa23.jpg'),(38,'parasound_halod3.jpg','2017-03-07 12:02:13','parasound_halod3.jpg'),(39,'parasound_halop3.jpg','2017-03-07 12:02:13','parasound_halop3.jpg'),(40,'manley_snapper_effekt.jpg','2017-03-07 17:45:56','manley_snapper_effekt.jpg'),(41,'jolida_JD502b.jpg','2017-03-07 18:02:54','jolida_JD502b.jpg');
+INSERT INTO `hifi_pictures` VALUES (1,'noProduct.png','2017-03-07 12:02:13','noProduct.png'),(5,'Creek_OBH_22_Passive_Preamp.jpg','2017-03-07 12:02:11','Creek_OBH_22_Passive_Preamp.jpg'),(6,'Exp_2010S_CD.gif','2017-03-07 12:02:12','Exp_2010S_CD.gif'),(7,'Manley_Stingray.jpg','2017-03-07 12:02:12','Manley_Stingray.jpg'),(8,'Pro_ject_Debut_3_bl.jpg','2017-03-07 12:02:12','Pro_ject_Debut_3_bl.jpg'),(9,'Pro_ject_Debut_III_red_1.jpg','2017-03-07 12:02:12','Pro_ject_Debut_III_red_1.jpg'),(10,'Pro_ject_Debut_III_yellow_1.jpg','2017-03-07 12:02:12','Pro_ject_Debut_III_yellow_1.jpg'),(11,'Pro_ject_rpm10.jpg','2017-03-07 12:02:12','Pro_ject_rpm10.jpg'),(12,'Pro_ject_rpm_5.jpg','2017-03-07 12:02:12','Pro_ject_rpm_5.jpg'),(13,'Project_prebox.jpg','2017-03-07 12:02:12','Project_prebox.jpg'),(14,'boesendorfer_vcs_wall.gif','2017-03-07 12:02:12','boesendorfer_vcs_wall.gif'),(15,'creek_Destiny_CD.jpg','2017-03-07 12:02:12','creek_Destiny_CD.jpg'),(16,'creek_a50I.jpg','2017-03-07 12:02:12','creek_a50I.jpg'),(17,'creek_classic.jpg','2017-03-07 12:02:12','creek_classic.jpg'),(18,'creek_classic5350SE.jpg','2017-03-07 12:02:12','creek_classic5350SE.jpg'),(19,'creek_classic_cd.jpg','2017-03-07 12:02:12','creek_classic_cd.jpg'),(20,'creek_destinyamp.jpg','2017-03-07 12:02:12','creek_destinyamp.jpg'),(21,'creek_evo_cd.jpg','2017-03-07 12:02:12','creek_evo_cd.jpg'),(22,'epos_m5.gif','2017-03-07 12:02:12','epos_m5.gif'),(23,'exposure_2010S.jpg','2017-03-07 12:02:12','exposure_2010S.jpg'),(24,'harbeth_hl7es2.jpg','2017-03-07 12:02:12','harbeth_hl7es2.jpg'),(25,'harbeth_monitor30.jpg','2017-03-07 12:02:12','harbeth_monitor30.jpg'),(26,'harbeth_p3es2.jpg','2017-03-07 12:02:12','harbeth_p3es2.jpg'),(27,'jolida_JD102b.jpg','2017-03-07 12:02:13','jolida_JD102b.jpg'),(28,'jolida_JD202a.jpg','2017-03-07 12:02:13','jolida_JD202a.jpg'),(29,'jolida_JD300b.jpg','2017-03-07 12:02:13','jolida_JD300b.jpg'),(30,'jolida_JD302b.jpg','2017-03-07 12:02:13','jolida_JD302b.jpg'),(31,'manley_mahi.jpg','2017-03-07 12:02:13','manley_mahi.jpg'),(32,'manley_neoclassic300b.jpg','2017-03-07 12:02:13','manley_neoclassic300b.jpg'),(33,'manley_snapper.jpg','2017-03-07 12:02:13','manley_snapper.jpg'),(35,'parasound_classic7100.jpg','2017-03-07 12:02:13','parasound_classic7100.jpg'),(36,'parasound_d200.jpg','2017-03-07 12:02:13','parasound_d200.jpg'),(37,'parasound_haloa23.jpg','2017-03-07 12:02:13','parasound_haloa23.jpg'),(38,'parasound_halod3.jpg','2017-03-07 12:02:13','parasound_halod3.jpg'),(39,'parasound_halop3.jpg','2017-03-07 12:02:13','parasound_halop3.jpg'),(40,'manley_snapper_effekt.jpg','2017-03-07 17:45:56','manley_snapper_effekt.jpg'),(41,'jolida_JD502b.jpg','2017-03-07 18:02:54','jolida_JD502b.jpg'),(42,'placeholder.png','2017-03-08 11:44:20','Placeholder');
 /*!40000 ALTER TABLE `hifi_pictures` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,4 +219,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-07 18:12:26
+-- Dump completed on 2017-03-08 12:59:14
