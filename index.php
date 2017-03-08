@@ -1,9 +1,8 @@
 <?php
-    ##Include header (With navigation)
+    ## Include header (With navigation)
     include './partials/header.php';
 
-    //$slide = array(0 => array('sliderId' => 1, 'sliderHeading' => 'Test slider', 'sliderImg' => 'slide1.jpg'), 1 => array('sliderId' => 2, 'sliderHeading' => 'Test slider 2', 'sliderImg' => 'slide2.jpg'));
-
+    ## Include ImageSlider from partials
     include './partials/slider.php';
 ?>
 
@@ -17,12 +16,12 @@
         </article>
         <hr class="featurette-divider">
         
-        <?php include './partials/mainContent.php'; ?>
+        <?php include './partials/mainContent.php'; ## Include main content from partials?>
 
         <hr class="featurette-divider">
         <article>
             <section class="row">
-                <?php include './partials/news.php'; ?>
+                <?php include './partials/news.php'; ## Include News from partials ?>
             </section>
         </article>
         <hr class="featurette-divider">
