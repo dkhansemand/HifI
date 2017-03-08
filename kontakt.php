@@ -42,7 +42,7 @@
         }
 
         if($errCount === 0){
-            $query = $conn->newQuery("INSERT INTO hifi_contactmessages (fullname, email, subject, message)VALUES(:NAME, :EMAIL, :SUBJECT, :MSG)");
+            $query = $conn->newQuery("INSERT INTO hifi_contactmessages (cmFullname, cmEmail, cmSubject, cmMessage)VALUES(:NAME, :EMAIL, :SUBJECT, :MSG)");
             $query->bindParam(':NAME', $name, PDO::PARAM_STR);
             $query->bindParam(':EMAIL', $email, PDO::PARAM_STR);
             $query->bindParam(':SUBJECT', $subject, PDO::PARAM_STR);

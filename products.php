@@ -7,15 +7,13 @@
         $CategoryID = (int)$_GET['catID'];
 
         ## Get all products in given category
-        $query = $conn->newQuery("SELECT product.pid, product.productTitle, product.productDetails, product.price,
-        manu.manufactureName,
-        picture.filename, picture.title AS pictureTitle,
-        hifi_category.categoryName 
+        $query = $conn->newQuery("SELECT pid, productTitle, productDetails, productPrice,
+        brandName, pictureFilename, pictureTitle, categoryName 
         FROM hifi_category
-        LEFT JOIN hifi_products AS product ON hifi_category.id = product.categoryId
-        LEFT JOIN hifi_pictures AS picture ON picture.id = product.productPicture
-        LEFT JOIN hifi_manufacturers AS manu ON manu.id = product.manufacturerId
-        WHERE hifi_category.id = :CATID;
+        LEFT JOIN hifi_products ON catId = productCategoryId
+        LEFT JOIN hifi_pictures ON pictureId = productPicture
+        LEFT JOIN hifi_brands ON bid = productBrandId
+        WHERE catId = :CATID;
         ");
         $query->bindParam(":CATID", $CategoryID, PDO::PARAM_INT);
         
@@ -42,13 +40,13 @@
                                     <figure>
                                         <a href="#" class="thumbnail">
                                         <figcaption>
-                                            <h3 class="title"><?=$product['manufactureName']?> - <span class="text-muted"><?=$product['productTitle']?></span></h3>
+                                            <h3 class="title"><?=$product['brandName']?> - <span class="text-muted"><?=$product['productTitle']?></span></h3>
                                             <p>
                                                 <?=$product['productDetails']?>
                                             </p>
-                                            <var><abbr title="DKK">Pris:</abbr> <?=str_replace('.',',',$product['price'])?> kr</var>
+                                            <var><abbr title="DKK">Pris:</abbr> <?=str_replace('.',',',$product['productPrice'])?> kr</var>
                                         </figcaption>
-                                            <img src="prod_image/<?=$product['filename']?>" alt="<?=$product['pictureTitle']?>">
+                                            <img src="prod_image/<?=$product['pictureFilename']?>" alt="<?=$product['pictureTitle']?>">
                                         </a>
                                     </figure>
                                 </section>

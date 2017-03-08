@@ -35,13 +35,13 @@
             <li><a href="index.php">Forside</a></li>
             <?php
               ## Get all categories and list in menu
-              $query = $conn->newQuery("SELECT id, categoryName FROM hifi_category WHERE isActive = 1 ORDER BY id ASC;");
+              $query = $conn->newQuery("SELECT catId, categoryName FROM hifi_category WHERE categoryActive = 1 ORDER BY catId ASC;");
               ## Check if the statement can be executed
               if($query->execute()){
                 ## Loop through results and in format ASSOC
                 while ($categories = $query->fetch(PDO::FETCH_ASSOC)){
                     ?>
-                      <li><a href="products.php?catID=<?=$categories['id']?>"><?=utf8_encode($categories['categoryName'])?></a></li>
+                      <li><a href="products.php?catID=<?=$categories['catId']?>"><?=utf8_encode($categories['categoryName'])?></a></li>
                     <?php
                 }
               }
