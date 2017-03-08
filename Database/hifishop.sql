@@ -109,8 +109,8 @@ CREATE TABLE `hifi_imageslider` (
   `SliderImageId` int(11) NOT NULL,
   PRIMARY KEY (`sid`),
   KEY `fk_sliderImgId_idx` (`SliderImageId`),
-  CONSTRAINT `fk_sliderImgId` FOREIGN KEY (`SliderImageId`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_sliderImgId` FOREIGN KEY (`SliderImageId`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,6 +119,7 @@ CREATE TABLE `hifi_imageslider` (
 
 LOCK TABLES `hifi_imageslider` WRITE;
 /*!40000 ALTER TABLE `hifi_imageslider` DISABLE KEYS */;
+INSERT INTO `hifi_imageslider` VALUES (1,'Parasound Classic','bh etue tisi blandiatue dolum dolessim ea feummy nostrud delendi pissequ ametum in etuerit etue tatiscipit nos ex el init lore tatet do conullum diamet venim dolore facidunt dit doluptat.','#',43),(2,'Parasound Classic','bh etue tisi blandiatue dolum dolessim ea feummy nostrud delendi pissequ ametum in etuerit etue tatiscipit nos ex el init lore tatet do conullum diamet venim dolore facidunt dit doluptat.','#',44),(3,'Parasound Classic','bh etue tisi blandiatue dolum dolessim ea feummy nostrud delendi pissequ ametum in etuerit etue tatiscipit nos ex el init lore tatet do conullum diamet venim dolore facidunt dit doluptat.','#',45),(4,'Test','Dette er en test','#',42);
 /*!40000 ALTER TABLE `hifi_imageslider` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,9 +138,9 @@ CREATE TABLE `hifi_maincontent` (
   `mcPictureId` int(11) DEFAULT NULL,
   `mcCreatedDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`mcId`),
-  KEY `fk_contentPictureId_idx` (`mcPictureId`),
-  CONSTRAINT `fk_contentPictureId` FOREIGN KEY (`mcPictureId`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `fk_mcImgId_idx` (`mcPictureId`),
+  CONSTRAINT `fk_mcImgId` FOREIGN KEY (`mcPictureId`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,6 +149,7 @@ CREATE TABLE `hifi_maincontent` (
 
 LOCK TABLES `hifi_maincontent` WRITE;
 /*!40000 ALTER TABLE `hifi_maincontent` DISABLE KEYS */;
+INSERT INTO `hifi_maincontent` VALUES (2,'Lorem ipsum. ','dolor sit amet.','Consectetur adipiscing elit. Nunc sollicitudin ligula ut faucibus congue. Etiam arcu nibh, venenatis non ligula vel, consequat euismod eros. Vestibulum in aliquet leo. Maecenas ut lacinia justo. Duis sagittis imperdiet tellus a vulputate. Duis scelerisque nunc tortor.',46,'2017-03-08 15:41:08');
 /*!40000 ALTER TABLE `hifi_maincontent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,8 +192,8 @@ CREATE TABLE `hifi_news` (
   `newsPictureId` int(11) NOT NULL,
   `newsAdded` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`nid`),
-  KEY `fk_pictureId_idx` (`newsPictureId`),
-  CONSTRAINT `fk_pictureId` FOREIGN KEY (`newsPictureId`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `fk_newsImg_idx` (`newsPictureId`),
+  CONSTRAINT `fk_newsImg` FOREIGN KEY (`newsPictureId`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -213,12 +215,12 @@ DROP TABLE IF EXISTS `hifi_pictures`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hifi_pictures` (
-  `pictureId` int(11) NOT NULL,
+  `pictureId` int(11) NOT NULL AUTO_INCREMENT,
   `pictureFilename` varchar(256) NOT NULL,
   `pictureAdded` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `pictureTitle` varchar(128) NOT NULL,
   PRIMARY KEY (`pictureId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +229,7 @@ CREATE TABLE `hifi_pictures` (
 
 LOCK TABLES `hifi_pictures` WRITE;
 /*!40000 ALTER TABLE `hifi_pictures` DISABLE KEYS */;
-INSERT INTO `hifi_pictures` VALUES (1,'noProduct.png','2017-03-07 12:02:13','noProduct.png'),(5,'Creek_OBH_22_Passive_Preamp.jpg','2017-03-07 12:02:11','Creek_OBH_22_Passive_Preamp.jpg'),(6,'Exp_2010S_CD.gif','2017-03-07 12:02:12','Exp_2010S_CD.gif'),(7,'Manley_Stingray.jpg','2017-03-07 12:02:12','Manley_Stingray.jpg'),(8,'Pro_ject_Debut_3_bl.jpg','2017-03-07 12:02:12','Pro_ject_Debut_3_bl.jpg'),(9,'Pro_ject_Debut_III_red_1.jpg','2017-03-07 12:02:12','Pro_ject_Debut_III_red_1.jpg'),(10,'Pro_ject_Debut_III_yellow_1.jpg','2017-03-07 12:02:12','Pro_ject_Debut_III_yellow_1.jpg'),(11,'Pro_ject_rpm10.jpg','2017-03-07 12:02:12','Pro_ject_rpm10.jpg'),(12,'Pro_ject_rpm_5.jpg','2017-03-07 12:02:12','Pro_ject_rpm_5.jpg'),(13,'Project_prebox.jpg','2017-03-07 12:02:12','Project_prebox.jpg'),(14,'boesendorfer_vcs_wall.gif','2017-03-07 12:02:12','boesendorfer_vcs_wall.gif'),(15,'creek_Destiny_CD.jpg','2017-03-07 12:02:12','creek_Destiny_CD.jpg'),(16,'creek_a50I.jpg','2017-03-07 12:02:12','creek_a50I.jpg'),(17,'creek_classic.jpg','2017-03-07 12:02:12','creek_classic.jpg'),(18,'creek_classic5350SE.jpg','2017-03-07 12:02:12','creek_classic5350SE.jpg'),(19,'creek_classic_cd.jpg','2017-03-07 12:02:12','creek_classic_cd.jpg'),(20,'creek_destinyamp.jpg','2017-03-07 12:02:12','creek_destinyamp.jpg'),(21,'creek_evo_cd.jpg','2017-03-07 12:02:12','creek_evo_cd.jpg'),(22,'epos_m5.gif','2017-03-07 12:02:12','epos_m5.gif'),(23,'exposure_2010S.jpg','2017-03-07 12:02:12','exposure_2010S.jpg'),(24,'harbeth_hl7es2.jpg','2017-03-07 12:02:12','harbeth_hl7es2.jpg'),(25,'harbeth_monitor30.jpg','2017-03-07 12:02:12','harbeth_monitor30.jpg'),(26,'harbeth_p3es2.jpg','2017-03-07 12:02:12','harbeth_p3es2.jpg'),(27,'jolida_JD102b.jpg','2017-03-07 12:02:13','jolida_JD102b.jpg'),(28,'jolida_JD202a.jpg','2017-03-07 12:02:13','jolida_JD202a.jpg'),(29,'jolida_JD300b.jpg','2017-03-07 12:02:13','jolida_JD300b.jpg'),(30,'jolida_JD302b.jpg','2017-03-07 12:02:13','jolida_JD302b.jpg'),(31,'manley_mahi.jpg','2017-03-07 12:02:13','manley_mahi.jpg'),(32,'manley_neoclassic300b.jpg','2017-03-07 12:02:13','manley_neoclassic300b.jpg'),(33,'manley_snapper.jpg','2017-03-07 12:02:13','manley_snapper.jpg'),(35,'parasound_classic7100.jpg','2017-03-07 12:02:13','parasound_classic7100.jpg'),(36,'parasound_d200.jpg','2017-03-07 12:02:13','parasound_d200.jpg'),(37,'parasound_haloa23.jpg','2017-03-07 12:02:13','parasound_haloa23.jpg'),(38,'parasound_halod3.jpg','2017-03-07 12:02:13','parasound_halod3.jpg'),(39,'parasound_halop3.jpg','2017-03-07 12:02:13','parasound_halop3.jpg'),(40,'manley_snapper_effekt.jpg','2017-03-07 17:45:56','manley_snapper_effekt.jpg'),(41,'jolida_JD502b.jpg','2017-03-07 18:02:54','jolida_JD502b.jpg'),(42,'placeholder.png','2017-03-08 11:44:20','Placeholder');
+INSERT INTO `hifi_pictures` VALUES (1,'noProduct.png','2017-03-07 12:02:13','noProduct.png'),(5,'Creek_OBH_22_Passive_Preamp.jpg','2017-03-07 12:02:11','Creek_OBH_22_Passive_Preamp.jpg'),(6,'Exp_2010S_CD.gif','2017-03-07 12:02:12','Exp_2010S_CD.gif'),(7,'Manley_Stingray.jpg','2017-03-07 12:02:12','Manley_Stingray.jpg'),(8,'Pro_ject_Debut_3_bl.jpg','2017-03-07 12:02:12','Pro_ject_Debut_3_bl.jpg'),(9,'Pro_ject_Debut_III_red_1.jpg','2017-03-07 12:02:12','Pro_ject_Debut_III_red_1.jpg'),(10,'Pro_ject_Debut_III_yellow_1.jpg','2017-03-07 12:02:12','Pro_ject_Debut_III_yellow_1.jpg'),(11,'Pro_ject_rpm10.jpg','2017-03-07 12:02:12','Pro_ject_rpm10.jpg'),(12,'Pro_ject_rpm_5.jpg','2017-03-07 12:02:12','Pro_ject_rpm_5.jpg'),(13,'Project_prebox.jpg','2017-03-07 12:02:12','Project_prebox.jpg'),(14,'boesendorfer_vcs_wall.gif','2017-03-07 12:02:12','boesendorfer_vcs_wall.gif'),(15,'creek_Destiny_CD.jpg','2017-03-07 12:02:12','creek_Destiny_CD.jpg'),(16,'creek_a50I.jpg','2017-03-07 12:02:12','creek_a50I.jpg'),(17,'creek_classic.jpg','2017-03-07 12:02:12','creek_classic.jpg'),(18,'creek_classic5350SE.jpg','2017-03-07 12:02:12','creek_classic5350SE.jpg'),(19,'creek_classic_cd.jpg','2017-03-07 12:02:12','creek_classic_cd.jpg'),(20,'creek_destinyamp.jpg','2017-03-07 12:02:12','creek_destinyamp.jpg'),(21,'creek_evo_cd.jpg','2017-03-07 12:02:12','creek_evo_cd.jpg'),(22,'epos_m5.gif','2017-03-07 12:02:12','epos_m5.gif'),(23,'exposure_2010S.jpg','2017-03-07 12:02:12','exposure_2010S.jpg'),(24,'harbeth_hl7es2.jpg','2017-03-07 12:02:12','harbeth_hl7es2.jpg'),(25,'harbeth_monitor30.jpg','2017-03-07 12:02:12','harbeth_monitor30.jpg'),(26,'harbeth_p3es2.jpg','2017-03-07 12:02:12','harbeth_p3es2.jpg'),(27,'jolida_JD102b.jpg','2017-03-07 12:02:13','jolida_JD102b.jpg'),(28,'jolida_JD202a.jpg','2017-03-07 12:02:13','jolida_JD202a.jpg'),(29,'jolida_JD300b.jpg','2017-03-07 12:02:13','jolida_JD300b.jpg'),(30,'jolida_JD302b.jpg','2017-03-07 12:02:13','jolida_JD302b.jpg'),(31,'manley_mahi.jpg','2017-03-07 12:02:13','manley_mahi.jpg'),(32,'manley_neoclassic300b.jpg','2017-03-07 12:02:13','manley_neoclassic300b.jpg'),(33,'manley_snapper.jpg','2017-03-07 12:02:13','manley_snapper.jpg'),(35,'parasound_classic7100.jpg','2017-03-07 12:02:13','parasound_classic7100.jpg'),(36,'parasound_d200.jpg','2017-03-07 12:02:13','parasound_d200.jpg'),(37,'parasound_haloa23.jpg','2017-03-07 12:02:13','parasound_haloa23.jpg'),(38,'parasound_halod3.jpg','2017-03-07 12:02:13','parasound_halod3.jpg'),(39,'parasound_halop3.jpg','2017-03-07 12:02:13','parasound_halop3.jpg'),(40,'manley_snapper_effekt.jpg','2017-03-07 17:45:56','manley_snapper_effekt.jpg'),(41,'jolida_JD502b.jpg','2017-03-07 18:02:54','jolida_JD502b.jpg'),(42,'placeholder.png','2017-03-08 11:44:20','Placeholder'),(43,'slide1.jpg','2017-03-08 19:30:12','Slider billede 1'),(44,'slide2.jpg','2017-03-08 19:30:12','Slider billede 2'),(45,'slide3.jpg','2017-03-08 19:30:12','Slider billede 3'),(46,'forside.jpg','2017-03-08 19:53:26','Forside billede');
 /*!40000 ALTER TABLE `hifi_pictures` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,11 +251,11 @@ CREATE TABLE `hifi_products` (
   `productCategoryId` int(11) NOT NULL,
   PRIMARY KEY (`pid`),
   KEY `fk_category_idx` (`productCategoryId`),
-  KEY `fk_productPicture_idx` (`productPicture`),
   KEY `fk_manufactor_idx` (`productBrandId`),
+  KEY `fk_productPictureId_idx` (`productPicture`),
   CONSTRAINT `fk_brand` FOREIGN KEY (`productBrandId`) REFERENCES `hifi_brands` (`bid`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_category` FOREIGN KEY (`productCategoryId`) REFERENCES `hifi_category` (`catId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_productPicture` FOREIGN KEY (`productPicture`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `fk_productPictureId` FOREIGN KEY (`productPicture`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -276,4 +278,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-08 15:05:33
+-- Dump completed on 2017-03-08 20:18:02
