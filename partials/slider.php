@@ -1,6 +1,6 @@
 <?php
     $querySlider = $conn->newQuery("SELECT sid, sliderTitle, sliderContent, sliderLink, pictureFilename, pictureTitle
-                                    FROM hifi_imageSlider
+                                    FROM hifi_imageslider
                                     INNER JOIN hifi_pictures ON pictureId = sliderImageId");
     if($querySlider->execute()){
         $slider = $querySlider->fetchAll(PDO::FETCH_ASSOC);
