@@ -27,9 +27,9 @@
             $queryInsert->bindParam(':TITLE', $_POST['productName'], PDO::PARAM_STR);   
             $queryInsert->bindParam(':DETAILS', $_POST['productDetails'], PDO::PARAM_STR);      
             $queryInsert->bindParam(':PRICE', $_POST['productPrice'], PDO::PARAM_STR);     
-            $queryInsert->bindParam('MANUID', $_POST['manufacturer'], PDO::PARAM_STR);   
-            $queryInsert->bindParam('PICTUREID', $_POST['productPicture'], PDO::PARAM_STR);       
-            $queryInsert->bindParam(':CATID', $_POST['productCategory'], PDO::PARAM_STR);  
+            $queryInsert->bindParam(':MANUID', $_POST['manufacturer'], PDO::PARAM_INT);   
+            $queryInsert->bindParam(':PICTUREID', $_POST['productPicture'], PDO::PARAM_INT);       
+            $queryInsert->bindParam(':CATID', $_POST['productCategory'], PDO::PARAM_INT);  
 
             if($queryInsert->execute()){
                 ?>
@@ -42,7 +42,7 @@
                             </div>
                         </div>  
                     </div>   
-            <?php
+                 <?php
             }                          
         }
     }
