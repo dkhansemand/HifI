@@ -49,7 +49,7 @@
                                             </p>
                                             <var><abbr title="DKK">Pris:</abbr> <?=$product['price']?> kr</var>
                                         </figcaption>
-                                            <img src="prod_image/<?=$product['filename']?>" height="100" width="200" alt="<?=$product['pictureTitle']?>">
+                                            <img src="prod_image/<?=$product['filename']?>" alt="<?=$product['pictureTitle']?>">
                                         </a>
                                     </figure>
                                 </section>

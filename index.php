@@ -1,6 +1,8 @@
 <?php
     ##Include header (With navigation)
     include './partials/header.php';
+
+
 ?>
 <br><br><br>
     <aside id="myCarousel" class="container carousel slide" data-ride="carousel">
@@ -60,50 +62,7 @@
         <hr class="featurette-divider">
         <article>
             <section class="row">
-                <div class="col-xs-18 col-sm-6 col-md-3">
-                  <div class="thumbnail">
-                    <img src="http://placehold.it/500x300" alt="">
-                      <div class="caption">
-                        <h4>Overskrift</h4>
-                        <p class="text-muted">3/7 2014 10:22</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit</p>
-                        <p><a href="#" class="btn btn-default btn-xs" role="button">Læs mere</a></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-18 col-sm-6 col-md-3">
-                  <div class="thumbnail">
-                    <img src="http://placehold.it/500x300" alt="">
-                      <div class="caption">
-                        <h4>Overskrift</h4>
-                        <p class="text-muted">3/7 2014 10:22</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit</p>
-                        <p><a href="#" class="btn btn-default btn-xs" role="button">Læs mere</a></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-18 col-sm-6 col-md-3">
-                  <div class="thumbnail">
-                    <img src="http://placehold.it/500x300" alt="">
-                      <div class="caption">
-                        <h4>Overskrift</h4>
-                        <p class="text-muted">3/7 2014 10:22</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit</p>
-                        <p><a href="#" class="btn btn-default btn-xs" role="button">Læs mere</a></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-18 col-sm-6 col-md-3">
-                  <div class="thumbnail">
-                    <img src="http://placehold.it/500x300" alt="">
-                      <div class="caption">
-                        <h4>Overskrift</h4>
-                        <p class="text-muted">3/7 2014 10:22</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit</p>
-                        <p><a href="#" class="btn btn-default btn-xs" role="button">Læs mere</a></p>
-                    </div>
-                  </div>
-                </div>
+                <?php include './partials/news.php'; ?>
             </section>
         </article>
         <hr class="featurette-divider">
