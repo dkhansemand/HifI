@@ -7,8 +7,7 @@
         $CategoryID = (int)$_GET['catID'];
 
         ## Get all products in given category
-        $query = $conn->newQuery("
-        SELECT product.pid, product.productTitle, product.productDetails, product.price,
+        $query = $conn->newQuery("SELECT product.pid, product.productTitle, product.productDetails, product.price,
         manu.manufactureName,
         picture.filename, picture.title AS pictureTitle,
         hifi_category.categoryName 
@@ -28,7 +27,7 @@
                     <section class="container heading">
                     <article class="row">
                         <section class="col-lg-12">
-                            <h3><?=utf8_encode($rows[0]['categoryName'])?></h3>
+                            <h3><?=utf8_encode($rows[0]['categoryName'])##UTF8 encode indtil fejl er fundet?></h3>
                         </section>
                     </article>
                     <hr class="featurette-divider">
@@ -47,7 +46,7 @@
                                             <p>
                                                 <?=$product['productDetails']?>
                                             </p>
-                                            <var><abbr title="DKK">Pris:</abbr> <?=$product['price']?> kr</var>
+                                            <var><abbr title="DKK">Pris:</abbr> <?=str_replace('.',',',$product['price'])?> kr</var>
                                         </figcaption>
                                             <img src="prod_image/<?=$product['filename']?>" alt="<?=$product['pictureTitle']?>">
                                         </a>

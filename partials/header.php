@@ -5,9 +5,6 @@
     ## Open connection to Database
     $conn = new dbconnector();
 
-    ## Only included in development
-    require_once './lib/debug.php';
-
 ?>
 <html>
 

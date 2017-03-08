@@ -13,7 +13,7 @@ if($queryNews->execute()){
 ?>
     <div class="col-xs-18 col-sm-6 col-md-3">
         <div class="thumbnail">
-        <img src="<?=$image?>" alt="<?=$news['newsPicTitle']?>">
+            <img src="<?=$image?>" alt="<?=$news['newsPicTitle']?>">
             <div class="caption">
             <h4><?=$news['title']?></h4>
             <p class="text-muted"><?=$news['newsDate']?></p>
