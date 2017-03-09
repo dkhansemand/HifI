@@ -17,10 +17,10 @@
             ++$errCount;
         }
 
-        if ( empty($email) ) { // test om variablen er tom
+        if ( empty($email) ) { // Check if vaiable is empty
             $errEmail = 'Du skal udfylde feltet';
             ++$errCount;
-        }elseif( !filter_var($email, FILTER_VALIDATE_EMAIL) ) { // test om varibel er en email
+        }elseif( !filter_var($email, FILTER_VALIDATE_EMAIL) ) { // Check if the given email is in correct format
             $errEmail = "Emailen er ikke skrevet korrekt.";
             ++$errCount;
         } 
@@ -33,10 +33,10 @@
             ++$errCount;
         }
 
-        if(empty($message)){ // test om variablen er tom
+        if(empty($message)){ // Check if vaiable is empty
             $errMsg = 'Du skal udfylde feltet';
             ++$errCount;
-        }elseif (strlen($message) <= 20){ //tjekker længden på strengen
+        }elseif (strlen($message) <= 20){ //Checks if the length is over 20 characters 
             $errMsg = 'Du skal skrive mere en 20 tegn';
             ++$errCount;
         }

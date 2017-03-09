@@ -107,7 +107,7 @@ $(document).ready(() => {
         }
     }
 
-    // Validering af felter efter indtastning
+    // Validate input when user types and releases the key
     $("#contactForm").keyup( (objForm) => {
         "use strict";
         if(objForm.target.name === "name"){
@@ -121,7 +121,7 @@ $(document).ready(() => {
         }
     });
 
-    // Validering sker når bruger TAB ud af felterne 
+    // Validate input field if user TAB between fields
     $("#contactForm").on('change', (objForm) => {
         "use strict";
         if(objForm.target.name === "name"){

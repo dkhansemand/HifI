@@ -1,5 +1,5 @@
 <?php
-
+## Class that handles the MySQL connection
 class dbconnector {
     const   SERVER = 'localhost',
             USERNAME = 'root',
