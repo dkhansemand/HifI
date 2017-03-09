@@ -107,8 +107,7 @@ $(document).ready(() => {
         }
     }
 
-
-
+    // Validering af felter efter indtastning
     $("#contactForm").keyup( (objForm) => {
         "use strict";
         if(objForm.target.name === "name"){
@@ -120,6 +119,20 @@ $(document).ready(() => {
         }else if(objForm.target.name === "message"){
             validate.message("#message");
         }
+    });
+
+    // Validering sker når bruger TAB ud af felterne 
+    $("#contactForm").on('change', (objForm) => {
+        "use strict";
+        if(objForm.target.name === "name"){
+            validate.name("#name");
+        }else if(objForm.target.name === "email"){
+            validate.email("#email");
+        }else if(objForm.target.name === "subject"){
+            validate.subject("#subject");
+        }else if(objForm.target.name === "message"){
+            validate.message("#message");
+        }   
     });
 
 });

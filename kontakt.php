@@ -28,7 +28,7 @@
         if(empty($subject)){
             $errSubject = 'Emne skal udfyldes';
             ++$errCount;
-        }elseif(!preg_match('/\w[a-zA-ZÆØÅæøå0-9]+$/', $subject) ) { 
+        }elseif(preg_match('/\w[a-zA-ZÆØÅæøå0-9]+$/', $subject) ) { 
             $errSubject = "Feltet må ikke indeholde specialtegn.";
             ++$errCount;
         }

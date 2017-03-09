@@ -2,7 +2,7 @@
 $queryNews = $conn->newQuery("SELECT nid, newsTitle, newsContent, DATE_FORMAT(newsAdded, '%d/%m %Y %h:%i') AS newsDate, pictureFilename, pictureTitle
                                     FROM hifi_news 
                                     LEFT JOIN hifi_pictures ON pictureFilename = newsPictureId
-                                    LIMIT 4;");
+                                    ORDER BY newsDate DESC LIMIT 4;");
 if($queryNews->execute()){
     while($news = $queryNews->fetch(PDO::FETCH_ASSOC)){
         if(!empty($news['pictureFlename'])){
