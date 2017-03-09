@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `hifi_brands`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hifi_brands` (
-  `bid` int(11) NOT NULL,
+  `bid` int(11) NOT NULL AUTO_INCREMENT,
   `brandName` varchar(48) NOT NULL,
   PRIMARY KEY (`bid`),
   UNIQUE KEY `name_UNIQUE` (`brandName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,12 +48,12 @@ DROP TABLE IF EXISTS `hifi_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hifi_category` (
-  `catId` int(11) NOT NULL,
+  `catId` int(11) NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(28) CHARACTER SET latin1 NOT NULL,
   `categoryActive` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`catId`),
   UNIQUE KEY `categoryName_UNIQUE` (`categoryName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_danish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,14 +74,14 @@ DROP TABLE IF EXISTS `hifi_contactmessages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hifi_contactmessages` (
-  `cmId` int(11) NOT NULL,
+  `cmId` int(11) NOT NULL AUTO_INCREMENT,
   `cmFullname` varchar(64) NOT NULL,
   `cmEmail` varchar(192) NOT NULL,
   `cmSubject` varchar(64) NOT NULL,
   `cmMessage` text NOT NULL,
   `cmSubmitDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`cmId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `hifi_contactmessages` (
 
 LOCK TABLES `hifi_contactmessages` WRITE;
 /*!40000 ALTER TABLE `hifi_contactmessages` DISABLE KEYS */;
-INSERT INTO `hifi_contactmessages` VALUES (0,'Test bRuger','test@test.dk','Test','Dett er en test fra kontakt','2017-03-08 15:04:14');
+INSERT INTO `hifi_contactmessages` VALUES (1,'Test bRuger','test@test.dk','Test','Dett er en test fra kontakt','2017-03-08 15:04:14'),(2,'test bruger','test@test.dk','jkhkjhkjh098098098','sÃ¦flksÃ¦ldfksdÃ¦flksdÃ¦flksÃ¦dfk','2017-03-09 08:35:28'),(3,'test','test@test.dk','poipoipo098098','sdklfjsdklfjsdklfjsldkfjsldkfj\r\n','2017-03-09 08:36:00'),(4,'test','test@test.dk','test7897897','sdfkljsdflksjdflkjslkdjfl','2017-03-09 08:38:02');
 /*!40000 ALTER TABLE `hifi_contactmessages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,11 +250,11 @@ CREATE TABLE `hifi_products` (
   `productPicture` int(11) NOT NULL DEFAULT '1',
   `productCategoryId` int(11) NOT NULL,
   PRIMARY KEY (`pid`),
-  KEY `fk_category_idx` (`productCategoryId`),
-  KEY `fk_manufactor_idx` (`productBrandId`),
   KEY `fk_productPictureId_idx` (`productPicture`),
-  CONSTRAINT `fk_brand` FOREIGN KEY (`productBrandId`) REFERENCES `hifi_brands` (`bid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_category` FOREIGN KEY (`productCategoryId`) REFERENCES `hifi_category` (`catId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_categoryId_idx` (`productCategoryId`),
+  KEY `fk_brandId_idx` (`productBrandId`),
+  CONSTRAINT `fk_brandId` FOREIGN KEY (`productBrandId`) REFERENCES `hifi_brands` (`bid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_categoryId` FOREIGN KEY (`productCategoryId`) REFERENCES `hifi_category` (`catId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_productPictureId` FOREIGN KEY (`productPicture`) REFERENCES `hifi_pictures` (`pictureId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -278,4 +278,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-08 21:12:38
+-- Dump completed on 2017-03-09 13:51:06

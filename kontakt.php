@@ -12,8 +12,8 @@
         if(empty($name)){
             $errName = 'Navn skal udfyldes';
             ++$errCount;
-        }elseif(preg_match('/\d/', $name) ) { 
-            $errName = "Feltet må ikke indeholde tal.";
+        }elseif(!preg_match('/^[a-zA-ZÆØÅæøå]+$/', $name) ) { 
+            $errName = "Feltet må ikke indeholde tal eller specialtegn.";
             ++$errCount;
         }
 
@@ -28,7 +28,7 @@
         if(empty($subject)){
             $errSubject = 'Emne skal udfyldes';
             ++$errCount;
-        }elseif(preg_match('/\w[a-zA-ZÆØÅæøå0-9]+$/', $subject) ) { 
+        }elseif(!preg_match('/^[a-zA-ZÆØÅæøå0-9]+$/', $subject) ) { 
             $errSubject = "Feltet må ikke indeholde specialtegn.";
             ++$errCount;
         }
@@ -51,10 +51,9 @@
             if($query->execute()){
                 unset($name, $email, $subject, $message);
                 $success = ' <div class="alert alert-success" role="alert">Din besked er nu sendt! Vi vender tilbage med svar hurtigst muligt!</div>';
-            }else{
-                $success = ' <div class="alert alert-danger" role="alert">Din besked blev ikke sendt! Prøv igen...!</div>';
             }
-            
+        }else{
+            $success = ' <div class="alert alert-danger" role="alert">Din besked blev ikke sendt! Ret fejlene!</div>';
         }
     }
 ?>

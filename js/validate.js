@@ -4,7 +4,7 @@ $(document).ready(() => {
             "use strict";
 
             var nameVal = $(inputField).val(),
-                nameRegex = /\w[a-zA-ZÆØÅæøå]+$/;
+                nameRegex = /^[a-zA-ZÆØÅæøå]+$/;
             
             if(nameVal.length !== 0 && nameRegex.test(nameVal)){
                 $(inputField).parent('div')
@@ -58,7 +58,7 @@ $(document).ready(() => {
         subject: (inputField) => {
             "use strict";
             var subjectVal = $(inputField).val(),
-                subjectRegex = /\w[a-zA-ZÆØÅæøå0-9]+$/;
+                subjectRegex = /^[a-zA-ZÆØÅæøå0-9]+$/;
             if(subjectVal.length !== 0 && subjectRegex.test(subjectVal)){
                 $(inputField).parent('div')
                                 .removeClass("has-error")
