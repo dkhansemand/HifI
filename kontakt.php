@@ -28,8 +28,8 @@
         if(empty($subject)){
             $errSubject = 'Emne skal udfyldes';
             ++$errCount;
-        }elseif(preg_match('/\d/', $subject) ) { 
-            $errSubject = "Feltet må ikke indeholde tal.";
+        }elseif(!preg_match('/\w[a-zA-ZÆØÅæøå0-9]+$/', $subject) ) { 
+            $errSubject = "Feltet må ikke indeholde specialtegn.";
             ++$errCount;
         }
 
@@ -49,6 +49,7 @@
             $query->bindParam(':MSG', $message, PDO::PARAM_STR);
 
             if($query->execute()){
+                unset($name, $email, $subject, $message);
                 $success = ' <div class="alert alert-success" role="alert">Din besked er nu sendt! Vi vender tilbage med svar hurtigst muligt!</div>';
             }else{
                 $success = ' <div class="alert alert-danger" role="alert">Din besked blev ikke sendt! Prøv igen...!</div>';

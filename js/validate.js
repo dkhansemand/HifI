@@ -58,7 +58,7 @@ $(document).ready(() => {
         subject: (inputField) => {
             "use strict";
             var subjectVal = $(inputField).val(),
-                subjectRegex = /\w[a-zA-ZÆØÅæøå]+$/;
+                subjectRegex = /\w[a-zA-ZÆØÅæøå0-9]+$/;
             if(subjectVal.length !== 0 && subjectRegex.test(subjectVal)){
                 $(inputField).parent('div')
                                 .removeClass("has-error")
@@ -76,7 +76,7 @@ $(document).ready(() => {
                 $(inputField).next()
                                 .removeClass("glyphicon-ok")
                                 .addClass("glyphicon-remove")
-                                .next('.errMsg').html('Emne skal udfyldes og må ikke indholde tal.');
+                                .next('.errMsg').html('Emne skal udfyldes og må ikke indholde specialtegn.');
                 return false;
             }
         },
