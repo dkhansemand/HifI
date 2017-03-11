@@ -1,13 +1,13 @@
 <?php
     ## Require needed libaries
-    require_once '../lib/class.mysql.php';
+    require_once '../../lib/class.mysql.php';
     $infoArr = array();
 
     ## Open connection to Database
     $conn = new dbconnector();
-    $queryCat = $conn->newQuery("SELECT id, categoryName FROM hifi_category;");
-    $queryPic = $conn->newQuery("SELECT id, filename FROM hifi_pictures;");    
-    $queryMan = $conn->newQuery("SELECT id, manufactureName FROM hifi_manufacturers;");
+    $queryCat = $conn->newQuery("SELECT catid, categoryName FROM hifi_category;");
+    $queryPic = $conn->newQuery("SELECT pictureid, picturefilename FROM hifi_pictures;");    
+    $queryMan = $conn->newQuery("SELECT bid, brandName FROM hifi_brands;");
     if($queryCat->execute()){
         $infoArr['Cat'] = $queryCat->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -22,7 +22,7 @@
 
     if(isset($_POST)){
         if(!empty($_POST['productName']) && !empty($_POST['productPrice'])){
-            $queryInsert = $conn->newQuery("INSERT INTO hifi_products (productTitle, productDetails, price, manufacturerId, productPicture, categoryId)
+            $queryInsert = $conn->newQuery("INSERT INTO hifi_products (productTitle, productDetails, productprice, manufacturerId, productPicture, categoryId)
                                             VALUES(:TITLE, :DETAILS, :PRICE, :MANUID, :PICTUREID, :CATID)");
             $queryInsert->bindParam(':TITLE', $_POST['productName'], PDO::PARAM_STR);   
             $queryInsert->bindParam(':DETAILS', $_POST['productDetails'], PDO::PARAM_STR);      
@@ -119,7 +119,7 @@
             <?php
                 foreach($infoArr['Man'] as $Manuf){
             ?>
-                <option value="<?=$Manuf['id']?>"><?=utf8_encode($Manuf['manufactureName'])?></option>
+                <option value="<?=$Manuf['id']?>"><?=utf8_encode($Manuf['brandName'])?></option>
 
                 <?php
                 }
@@ -133,7 +133,7 @@
                 <?php
                 foreach($infoArr['Pic'] as $Picture){
             ?>
-                <option value="<?=$Picture['id']?>"><?=utf8_encode($Picture['filename'])?></option>
+                <option value="<?=$Picture['id']?>"><?=utf8_encode($Picture['picturefilename'])?></option>
 
                 <?php
                 }
@@ -142,10 +142,10 @@
         <script>
             $(document).ready(()=>{
                 var picture = $('#productPic option:selected').text();
-                    $("#showPic").attr("src","../prod_image/" + picture);
+                    $("#showPic").attr("src","../../prod_image/" + picture);
                 $('#productPic').on('change', function() {
                     var picture = $('#productPic option:selected').text();
-                    $("#showPic").attr("src","../prod_image/" + picture);
+                    $("#showPic").attr("src","../../prod_image/" + picture);
                 });
             });
             </script>
