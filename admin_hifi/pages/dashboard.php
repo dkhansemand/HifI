@@ -1,3 +1,9 @@
+<?php
+  $getNewMessages = $conn->newQuery("SELECT COUNT(cmIsOpened) AS new FROM hifi_contactmessages");
+  $getNewMessages->execute();
+  $newMessages = $getNewMessages->fetch();
+?>
+
 <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -31,7 +37,8 @@
                         <div class="panel-body">
                           <pre>
                             <?=print_r($_GET) . PHP_EOL?>
-                            Defined base : <?=BASE?>
+                            Defined base : <?=BASE?><br>
+                            <?php #print_r($newMessages)?>
                           </pre>
                       </div>
                     </div>
@@ -47,8 +54,8 @@
                                         <i class="fa fa-envelope fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">1</div>
-                                        <div>Ny besked!</div>
+                                        <div class="huge"><?=$newMessages['new']?></div>
+                                        <div><?=$newMessages['new'] > 1 ? 'Nye beskeder': 'Ny besked'?>!</div>
                                     </div>
                                 </div>
                             </div>

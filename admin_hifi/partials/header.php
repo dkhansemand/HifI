@@ -3,11 +3,18 @@
     $devfolder = '/hifi';
     $file_headers = @get_headers($root.$devfolder);
     $username = 'Administrator';
+
     if($file_headers[0] === "HTTP/1.1 404 Not Found"){
         define('BASE', $root.'/admin_hifi');
     }else{
         define('BASE', $root.$devfolder.'/admin_hifi');
     }
+
+    ## Import dbconnetor class
+    require_once '../lib/class.mysql.php';
+    ## Create global connection variable
+    $conn = new dbconnector();
+
 ?>
 <!DOCTYPE html>
 <html lang="da">

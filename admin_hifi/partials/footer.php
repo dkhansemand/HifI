@@ -11,3 +11,7 @@
 </body>
 
 </html>
+
+<?php
+unset($conn);
+
