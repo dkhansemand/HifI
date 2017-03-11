@@ -45,6 +45,24 @@
                   </div>
                 </div>
                 <!-- /.row -->
+                 <div class="row">
+                  <div class="col-lg-8">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <i class="fa fa-tasks fa-2x"></i>
+                                     - Tilføj
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                          <a href="<?=BASE?>/Products/Add/" class="btn btn-success">Produkt</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.row -->
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
