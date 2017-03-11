@@ -5,16 +5,12 @@ if(!empty($_GET['p'])){
     if(file_exists('./pages/' . $page . '.php')){
         require_once './partials/header.php';
         include './pages/' . $page . '.php';
+        require_once './partials/footer.php';
     }else{
-         header('Location: ../dashboard/', true);
+         header('Location: ../Dashboard/', true);
+         exit;
     }
 }else{
-    header('Location: ../dashboard/', true);
+    header('Location: ../Dashboard/', true);
+    exit;
 }
-
-require_once './partials/footer.php';
-
-?>
-
-
-
