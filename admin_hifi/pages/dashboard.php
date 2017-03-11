@@ -11,7 +11,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i>  <a href="./">Kontrolpanel</a>
+                                <i class="fa fa-dashboard"></i>  <a href="<?=BASE?>/Dashboard/">Kontrolpanel</a>
                             </li>
                         </ol>
                     </div>
@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="<?=BASE?>/Messages/">
                                 <div class="panel-footer">
                                     <span class="pull-left">Se nye beskeder</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

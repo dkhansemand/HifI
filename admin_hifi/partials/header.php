@@ -2,7 +2,7 @@
     $root = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
     $devfolder = '/hifi';
     $file_headers = @get_headers($root.$devfolder);
-
+    $username = 'Administrator';
     if($file_headers[0] === "HTTP/1.1 404 Not Found"){
         define('BASE', $root.'/admin_hifi');
     }else{
@@ -53,12 +53,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">HiFi - Kontrolpanel</a>
+                <a class="navbar-brand" href="<?=BASE?>/Dashboard/">HiFi - Kontrolpanel</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li>
-                    <a href="#"><i class="fa fa-power-off"></i> Log ud</a>
+                    <a href="<?=BASE?>/Profile/"><i class="fa fa-user"></i> <?=@$username?></a>
+                </li>
+                <li>
+                    <a href="<?=BASE?>/Logout/"><i class="fa fa-power-off"></i> Log ud</a>
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
