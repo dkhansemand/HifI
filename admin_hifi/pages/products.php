@@ -1,8 +1,8 @@
 <?php
-    if(!empty($_GET['id'])){
-        $getParamId = $_GET['id'];
+    if(!empty($_GET['option'])){
+        $getParamOpt = $_GET['option'];
 
-        if($getParamId === 'Add'){
+        if($getParamOpt === 'Add'){
             $infoArr = array();
 
             ## Select nessecary information to form from DB
@@ -36,17 +36,29 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Kontrolpanel
-                            <small>HiFi</small>
+                            <small> - Produkter</small>
                         </h1>
                         <ol class="breadcrumb">
-                            <li class="active">
+                            <li>
                                 <i class="fa fa-dashboard"></i>  <a href="<?=BASE?>/Dashboard/">Kontrolpanel</a>
                             </li>
+                            <li class="active">
+                                <i class="fa fa-cubes"></i>  <a href="<?=BASE?>/Products/">Produkter</a>
+                            </li>
+                            <?php
+                            if(@$getParamOpt === 'Add'){
+                            ?>
+                                <li class="active">
+                                    <a href="<?=BASE?>/Products/Add/">Tilføj produkt</a>
+                                </li>
+                            <?php
+                            }
+                            ?>
                         </ol>
                     </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-8">
+                  <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
@@ -68,26 +80,15 @@
                   </div>
                 </div>
                 <!-- /.row -->
-                 <div class="row <?=$getParamId === 'Add' ? 'hidden': ''?>">
-                  <div class="col-lg-8">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <i class="fa fa-tasks fa-2x"></i>
-                                      Tilføj
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                          <a href="<?=BASE?>/Products/Add/" class="btn btn-success">Produkt</a>
-                      </div>
+                 <div class="row <?=$getParamOpt === 'Add' ? 'hidden': ''?>">
+                  <div class="col-lg-4">
+                          <a href="<?=BASE?>/Products/Add/" class="btn btn-success"><i class="fa fa-plus"></i>Tilføj Produkt</a>
                     </div>
                   </div>
                 </div>
                 <!-- /.row -->
-                <div class="row <?=$getParamId !== 'Add' ? 'hidden': ''?>">
-                  <div class="col-lg-8">
+                <div class="row <?=$getParamOpt !== 'Add' ? 'hidden': ''?>">
+                  <div class="col-lg-10">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">

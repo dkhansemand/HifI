@@ -13,7 +13,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Kontrolpanel
-                            <small>HiFi</small>
+                            <small> - HiFi</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-8">
+                  <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
