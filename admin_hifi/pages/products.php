@@ -40,6 +40,24 @@
                 }
              }
         }
+
+        if($getParamOpt === 'View' && !empty($_GET['id'])){
+            $productId = (int)$_GET['id'];
+            $queryProduct =  $conn->newQuery(" SELECT pid, productTitle, productDetails, productPrice,
+                                            brandName,
+                                            pictureFilename, pictureTitle,
+                                            categoryName
+                                            FROM hifi_products
+                                            LEFT JOIN hifi_category ON catId = productCategoryId
+                                            LEFT JOIN hifi_pictures ON pictureId = productPicture
+                                            LEFT JOIN hifi_brands ON bid = productBrandId
+                                            WHERE pid = :ID
+                                        ");
+            $queryProduct->bindParam(':ID', $productId, PDO::PARAM_INT);
+            if($queryProduct->execute()){
+                $productView = $queryProduct->fetch(PDO::FETCH_ASSOC);
+            }
+        }
     }else{
         $queryProducts = $conn->newQuery(" SELECT pid, productTitle, productDetails, productPrice,
                                             brandName,
@@ -83,6 +101,13 @@
                                 </li>
                             <?php
                             }
+                            if(@$getParamOpt === 'View'){
+                            ?>
+                                <li class="active">
+                                    <a href="<?=BASE?>/Products/View/<?=$productId?>"><?=$productView['productTitle']?></a>
+                                </li>
+                            <?php
+                            }
                             ?>
                         </ol>
                     </div>
@@ -119,7 +144,7 @@
                           <pre>
                             <?=print_r($_GET) . PHP_EOL?>
                             Defined base : <?=BASE?><br>
-                            <?php #print_r($products)?>
+                            <?php print_r($productView)?>
                           </pre>
                       </div>
                     </div>
