@@ -72,6 +72,10 @@
             if(isset($_POST) && isset($_POST['btnUpdate'])){
                 if(!empty($_POST['productName']) && !empty($_POST['productPrice'])){
                     $productUpdate = $_POST;
+                    $success = true;
+                    $successErr = false;
+                    $successTitle = 'Produkt opdateret';
+                    $successMsg = 'Produktet "' . $_POST['productName'] . '" er nu opdateret i databasen';
                 }
             }
         }

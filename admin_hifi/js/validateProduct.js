@@ -30,7 +30,7 @@ var validateProduct = {
             "use strict";
 
             var productdetailVal =  $(inputField).val(),
-                productdetailRegex = /\w+$/;
+                productdetailRegex = /^[a-zA-ZÆØÅæøå0-9\s._-]+$/;
 
             if(productdetailVal.length !== 0 && productdetailRegex.test(productdetailVal)){
                 $(inputField).parent('div')
