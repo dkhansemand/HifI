@@ -104,7 +104,7 @@
                             if(@$getParamOpt === 'View'){
                             ?>
                                 <li class="active">
-                                    <a href="<?=BASE?>/Products/View/<?=$productId?>"><?=$productView['productTitle']?></a>
+                                    <a href="<?=BASE?>/Products/View/<?=$productId?>"><?=$productView['brandName'] . ' - ' . $productView['productTitle']?></a>
                                 </li>
                             <?php
                             }
@@ -142,9 +142,7 @@
                         </div>
                         <div class="panel-body">
                           <pre>
-                            <?=print_r($_GET) . PHP_EOL?>
-                            Defined base : <?=BASE?><br>
-                            <?php print_r($productView)?>
+                            <?=print_r($_GET)?><br> Defined base : <?=BASE?><br><?=print_r($productView)?>
                           </pre>
                       </div>
                     </div>
