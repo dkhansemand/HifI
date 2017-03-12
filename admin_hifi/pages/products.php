@@ -20,22 +20,58 @@
                 $infoArr['Brand'] = $queryBrand->fetchAll(PDO::FETCH_ASSOC);
                 
             }
-            if(isset($_POST) && isset($_POST['btnAdd'])){
-                if(!empty($_POST['productName']) && !empty($_POST['productPrice'])){
-                    $queryInsert = $conn->newQuery("INSERT INTO hifi_products (productTitle, productDetails, productprice, productBrandId, productPicture, productCategoryId)
-                                                    VALUES(:TITLE, :DETAILS, :PRICE, :BRANDID, :PICTUREID, :CATID)");
-                    $queryInsert->bindParam(':TITLE', $_POST['productName'], PDO::PARAM_STR);   
-                    $queryInsert->bindParam(':DETAILS', $_POST['productDetails'], PDO::PARAM_STR);      
-                    $queryInsert->bindParam(':PRICE', $_POST['productPrice'], PDO::PARAM_STR);     
-                    $queryInsert->bindParam(':BRANDID', $_POST['brand'], PDO::PARAM_INT);   
-                    $queryInsert->bindParam(':PICTUREID', $_POST['productPicture'], PDO::PARAM_INT);       
-                    $queryInsert->bindParam(':CATID', $_POST['productCategory'], PDO::PARAM_INT);  
 
-                    if($queryInsert->execute()){
-                        $success = true;
-                        $successTitle = 'Produkt tilføjet';
-                        $successMsg = 'Produktet "' . $_POST['productName'] . '" er nu tilføjet til databasen';
-                    }                          
+            if(isset($_POST) && isset($_POST['btnAdd'])){
+                if(!empty($_POST['productName']) && !empty($_POST['productPrice']) && !empty($_POST['productDetails'])){
+                    $errCount = 0;
+                    $productName = $_POST['productName'];
+                    $productDetails = $_POST['productDetails'];
+                    $productPrice = $_POST['productPrice'];
+
+                    if(!preg_match('/^[a-zA-ZÆØÅæøå0-9]+$/', $productName)){
+                        ++$errCount;
+                        $errProdName = 'Feltet må kun indholde bogstaver og tal.';
+                    }
+
+                    if(!preg_match('/^[a-zA-ZÆØÅæøå0-9]+$/', $productDetails)){
+                        ++$errCount;
+                        $errProdDetails = 'Feltet må kun indholde bogstaver og tal.';
+                    }
+
+                    if(!preg_match('/^([1-9][0-9]*|0)(\,[0-9]{2})?$/', $productPrice)){
+                        ++$errCount;
+                        $errProdPrice = 'Feltet må kun indholde tal i format 00,00.';
+                    }
+
+                    if($errCount === 0){
+                        $queryInsert = $conn->newQuery("INSERT INTO hifi_products (productTitle, productDetails, productprice, productBrandId, productPicture, productCategoryId)
+                                                        VALUES(:TITLE, :DETAILS, :PRICE, :BRANDID, :PICTUREID, :CATID)");
+                        $queryInsert->bindParam(':TITLE', $productName, PDO::PARAM_STR);   
+                        $queryInsert->bindParam(':DETAILS', $productDetails, PDO::PARAM_STR);      
+                        $queryInsert->bindParam(':PRICE', $productPrice, PDO::PARAM_STR);     
+                        $queryInsert->bindParam(':BRANDID', $_POST['brand'], PDO::PARAM_INT);   
+                        $queryInsert->bindParam(':PICTUREID', $_POST['productPicture'], PDO::PARAM_INT);       
+                        $queryInsert->bindParam(':CATID', $_POST['productCategory'], PDO::PARAM_INT);  
+
+                        if($queryInsert->execute()){
+                            unset($productName, $productDetails, $productPrice);
+                            $success = true;
+                            $successErr = false;
+                            $successTitle = 'Produkt tilføjet';
+                            $successMsg = 'Produktet "' . $_POST['productName'] . '" er nu tilføjet til databasen';
+                        } 
+                    }                         
+                }else{
+                    $success = true;
+                    $successErr = true;
+                    $successTitle = 'Fejl i indtastning!';
+                    $successMsg = 'Produktnavn, produkt beskrivelse og produkt pris, skal udfyldes og være i korrekt format.';
+                }
+            }
+
+            if(isset($_POST) && isset($_POST['btnUpdate'])){
+                if(!empty($_POST['productName']) && !empty($_POST['productPrice'])){
+                    $productUpdate = $_POST;
                 }
             }
         }
@@ -58,7 +94,7 @@
             }
         }
         if($_GET['option'] === 'Page' && $_GET['id']){
-            // In the works            
+            // In the works for pagination           
             
         }
     }else{
@@ -120,12 +156,12 @@
                 </div>
                 <div class="row <?=@$success ? '' : 'hidden'?>">
                     <div class="col-lg-12">
-                        <div class="panel panel-success">
+                        <div class="panel panel-info">
                             <div class="panel-heading">
                                 <?=@$successTitle?>
                             </div>
                             <div class="panel-body">
-                                <div class="alert alert-success" role="alert">
+                                <div class="alert <?=@$successErr ? 'alert-danger':'alert-success'?>" role="alert">
                                     <?=@$successMsg?>
                                 </div>
                             </div>
@@ -149,6 +185,7 @@
                         <div class="panel-body">
                           <pre>
                             <?=print_r($_GET)?><br> Defined base : <?=BASE?><br><?=print_r(@$productView, true)?>
+                            <?=print_r(@$productUpdate, true)?>
                           </pre>
                       </div>
                     </div>
@@ -204,7 +241,7 @@
                 ?>
                 <div class="row">
                   <div class="col-lg-10">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-success">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-12">
@@ -214,21 +251,26 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                          <form method="post" action="">
+                          <form method="post" action="" id="productAddForm">
     
-                            <div class="input-group">
-                                <span class="input-group-addon" id="sizing-addon2">-</span>
-                                <input type="text" class="form-control" placeholder="Produkt navn" name="productName" aria-describedby="sizing-addon2">
-                            </div>
-                            <div class="input-group">
+                            <div class="input-group col-lg-6 has-feedback">
+                                <span class="input-group-addon" id="sizing-addon2">Produkt navn</span>
+                                <input type="text" class="form-control" placeholder="Produkt navn" name="productName" value="<?=@$productName?>" aria-describedby="sizing-addon2" required>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                <span class="errMsg alert-warning"><?=@$errProdName?></span>
+                            </div><br>
+                            <div class="input-group has-feedback">
                                 <label for="">Produkt beskrivelse</label>
-                                <textarea name="productDetails" class="form-control" col="15" rows="10">bh etue tisi blandiatue dolum dolessim ea feummy nostrud delendi pissequ ametum in etuerit etue tatiscipit nos ex el init lore tatet do conullum diamet venim dolore facidunt dit doluptat
-                                </textarea>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon" id="sizing-addon5">DKK kr.</span>
-                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" value="9999,75" aria-describedby="sizing-addon5">
-                            </div>
+                                <textarea name="productDetails" class="form-control" col="15" rows="10" required><?=@$productDetails?></textarea><br>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                <span class="errMsg alert-warning"><?=@$errProdDetails?></span>
+                            </div><br>  
+                            <div class="input-group col-lg-4 has-feedback">
+                                <span class="input-group-addon" id="sizing-addon5">kr. (00,00)</span>
+                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" value="<?=@$productPrice?>" aria-describedby="sizing-addon5" required>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                <span class="errMsg alert-warning"><?=@$errProdPrice?></span>
+                            </div><br>
                             <div class="input-group">
                                 <label for="basic-url">Kategori</label>
                                 <select name="productCategory">
@@ -241,7 +283,7 @@
                                         }
                                         ?>
                                 </select>
-                            </div>
+                            </div><br>
                             <div class="input-group">
                                 <label for="basic-url">Mærke</label>
                                 <select name="brand">
@@ -254,7 +296,7 @@
                                         }
                                         ?>
                                 </select>
-                            </div>
+                            </div><br>
                             <div class="input-group">
                                 <label for="basic-url">Produkt billede</label>
                                 
@@ -310,20 +352,26 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                          <form method="post" action="">
+                          <form method="post" action="" id="productUpdateForm">
     
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Produkt navn</span>
-                                <input type="text" class="form-control" value="<?=$productView['productTitle']?>" name="productName" aria-describedby="sizing-addon2">
+                                <input type="text" class="form-control" value="<?=$productView['productTitle']?>" name="productName" aria-describedby="sizing-addon2" required>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                <span class="errMsg"><?=@$errProdName?></span>
                             </div>
                             <div class="input-group">
                                 <label for="">Produkt beskrivelse</label>
-                                <textarea name="productDetails" class="form-control" col="15" rows="10"><?=$productView['productDetails']?>
+                                <textarea name="productDetails" class="form-control" col="15" rows="10" required><?=$productView['productDetails']?>
                                 </textarea>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                <span class="errMsg"><?=@$errProdDetails?></span>
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon5">DKK kr.</span>
-                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" value="<?=$productView['productPrice']?>" aria-describedby="sizing-addon5">
+                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" value="<?=$productView['productPrice']?>" aria-describedby="sizing-addon5" required>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                <span class="errMsg"><?=@$errProdPrice?></span>
                             </div>
                             <div class="input-group">
                                 <label for="basic-url">Kategori</label>
