@@ -141,6 +141,39 @@
                 $productView = $queryProduct->fetch(PDO::FETCH_ASSOC);
             }
         }
+        if($getParamOpt === 'Delete' && !empty($_GET['id'])){
+            $pid = (int) $_GET['id'];
+            
+            $queryDelete = $conn->newQuery("DELETE FROM hifi_products WHERE pid = :ID");
+            $queryDelete->bindParam(':ID', $pid, PDO::PARAM_INT);
+
+            if($queryDelete->execute()){
+            ?>
+            <script type="text/javascript">
+                $(window).load(function(){
+                    $('.modal').modal('show');
+                });
+            </script>
+            <div class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Produkt slettet</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Produktet er nu blevet slettet i databasen!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="<?=BASE?>/Products/" class="btn btn-success">OK</a>
+                    </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <?php
+            }
+        }
+
 
     }else{
     
@@ -237,7 +270,7 @@
                   </div>
                 </div>
                 <!-- /.row -->
-                 <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'View' ? 'hidden': ''?>">
+                 <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'View' || $getParamOpt === 'Delete' ? 'hidden': ''?>">
                   <div class="col-lg-4">
                           <a href="<?=BASE?>/Products/Add/" class="btn btn-success"><i class="fa fa-plus"></i>Tilføj Produkt</a>
                     </div>
@@ -245,7 +278,10 @@
                 
                 <!-- /.row -->
                 <!-- Produkt list -->
-                <div class="row <?=$getParamOpt === 'View' || $getParamOpt === 'Add' ? 'hidden': ''?>">
+                <?php
+                    
+                ?>
+                <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'View' || $getParamOpt === 'Delete' ? 'hidden': ''?>">
                   <div class="col-lg-12">
                         <h2>Produkter</h2>
                         <table class="table table-bordered table-hover">
@@ -270,7 +306,11 @@
                                             <td><?=$products[$productCount]['brandName']?></td>
                                             <td><?=utf8_encode($products[$productCount]['categoryName'])?></td>
                                             <td><img src="<?=IMGBASE.'/prod_image/'.$products[$productCount]['pictureFilename']?>" alt="<?=$products[$productCount]['pictureTitle']?>" height="85" width="auto"></td>
-                                            <td><a href="./View/<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a></td>
+                                            <td>
+                                                <a href="./View/<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete" data-productName="<?=$products[$productCount]['productTitle']?>" data-pid="<?=$products[$productCount]['pid']?>">Slet</button>
+                                                
+                                            </td>
                                         </tr>
                                         <?php
                                         }
@@ -278,6 +318,40 @@
                                 ?>
                             </tbody>
                         </table>
+                        <!-- Modal -->
+                        <script>
+                        $(document).ready(()=>{
+                            var pid;
+                            $('#modalDelete').on('show.bs.modal', function (event) {
+                                var button = $(event.relatedTarget); 
+                                var productName = button.data('productname'); 
+                                pid = button.data('pid');
+                                var modal = $(this);
+                                modal.find('#productName').text(productName);
+                            });
+                                $('#btnDelete').on('click', ()=>{
+                                    window.location = './Delete/'+pid;
+                                });
+                            });
+                        </script>
+                        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="ModalDeleteLbl">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Slet produkt?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Er du sikker på, at du vil slette produktet "<span id="productName"></span>"?
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Anullér</button>
+                                    <button type="button" id="btnDelete" class="btn btn-danger">Slet produkt</button>
+                                    
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                   </div>
                 
@@ -417,21 +491,20 @@
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon5">DKK kr.</span>
-                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" id="productPrice" value="<?=$productView['productPrice']?>" aria-describedby="sizing-addon5" required>
+                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" id="productPrice" value="<?=str_replace('.',',',$productView['productPrice'])?>" aria-describedby="sizing-addon5" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg"><?=@$errProdPrice?></span>
                             </div>
                             <div class="input-group">
                                 <label for="basic-url">Kategori</label>
                                 <select name="productCategory">
-                                    <?php
-                                        foreach($infoArr['Cat'] as $Category){
-                                    ?>
+                                <?php
+                                    foreach($infoArr['Cat'] as $Category){
+                                ?>
                                         <option value="<?=$Category['catid']?>" <?= $productView['categoryName'] === $Category['categoryName'] ? 'selected':''?>><?=utf8_encode($Category['categoryName'])?></option>
-
-                                        <?php
-                                        }
-                                        ?>
+                                    <?php
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="input-group">
