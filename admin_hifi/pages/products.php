@@ -339,6 +339,7 @@
                 <?php
                     if(@$getParamOpt === 'View' && !empty($_GET['id'])){
                 ?>
+                <script src="<?=BASE?>/js/validateProduct.js"></script>
                 <div class="row">
                   <div class="col-lg-10">
                     <div class="panel panel-info">
@@ -355,20 +356,20 @@
     
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Produkt navn</span>
-                                <input type="text" class="form-control" value="<?=$productView['productTitle']?>" name="productName" aria-describedby="sizing-addon2" required>
+                                <input type="text" class="form-control" value="<?=$productView['productTitle']?>" name="productName" id="productName" aria-describedby="sizing-addon2" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg"><?=@$errProdName?></span>
                             </div>
                             <div class="input-group">
                                 <label for="">Produkt beskrivelse</label>
-                                <textarea name="productDetails" class="form-control" col="15" rows="10" required><?=$productView['productDetails']?>
+                                <textarea name="productDetails" id="productDetails" class="form-control" col="15" rows="10" required><?=$productView['productDetails']?>
                                 </textarea>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg"><?=@$errProdDetails?></span>
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon5">DKK kr.</span>
-                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" value="<?=$productView['productPrice']?>" aria-describedby="sizing-addon5" required>
+                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" id="productPrice" value="<?=$productView['productPrice']?>" aria-describedby="sizing-addon5" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg"><?=@$errProdPrice?></span>
                             </div>

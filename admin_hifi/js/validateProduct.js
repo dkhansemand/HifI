@@ -3,7 +3,7 @@ var validateProduct = {
             "use strict";
 
             var nameVal = $(inputField).val(),
-                nameRegex = /^[a-zA-ZÆØÅæøå]+$/;
+                nameRegex = /\w+$/;
             
             if(nameVal.length !== 0 && nameRegex.test(nameVal)){
                 $(inputField).parent('div')
@@ -30,7 +30,7 @@ var validateProduct = {
             "use strict";
 
             var productdetailVal =  $(inputField).val(),
-                productdetailRegex = /^[a-zA-ZÆØÅæøå0-9]+$/;
+                productdetailRegex = /\w+$/;
 
             if(productdetailVal.length !== 0 && productdetailRegex.test(productdetailVal)){
                 $(inputField).parent('div')
@@ -93,8 +93,30 @@ $(document).ready( () => {
         }
     });
 
+     $("#productUpdateForm").keyup( (objForm) => {
+        "use strict";
+        if(objForm.target.name === "productName"){
+            validateProduct.productname("#productName");
+        }else if(objForm.target.name === "productDetails"){
+            validateProduct.productdetail("#productDetails");
+        }else if(objForm.target.name === "productPrice"){
+            validateProduct.productprice("#productPrice");
+        }
+    });
+
     // Validate input field if user TAB between fields
     $("#productAddForm").on('change', (objForm) => {
+        "use strict";
+        if(objForm.target.name === "productName"){
+            validateProduct.productname("#productName");
+        }else if(objForm.target.name === "produktDetails"){
+            validateProduct.productdetail("#productDetails");
+        }else if(objForm.target.name === "productPrice"){
+            validateProduct.productprice("#productPrice");
+        }
+    });
+
+    $("#productUpdateForm").on('change', (objForm) => {
         "use strict";
         if(objForm.target.name === "productName"){
             validateProduct.productname("#productName");
