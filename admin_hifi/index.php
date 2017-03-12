@@ -7,10 +7,10 @@ if(!empty($_GET['p'])){
         include './pages/' . $page . '.php';
         require_once './partials/footer.php';
     }else{
-         header('Location: ../Dashboard/', true);
+         header('Location: ./Dashboard/', true);
          exit;
     }
 }else{
-    header('Location: ../Dashboard/', true);
+    header('Location: ./Dashboard/', true);
     exit;
 }

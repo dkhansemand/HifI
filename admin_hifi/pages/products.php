@@ -2,7 +2,7 @@
     if(isset($_GET['option'])){
         $getParamOpt = $_GET['option'];
 
-        if($getParamOpt === 'Add'){
+        if($getParamOpt === 'Add' || $getParamOpt === 'View'){
             $infoArr = array();
 
             ## Select nessecary information to form from DB
@@ -20,7 +20,7 @@
                 $infoArr['Brand'] = $queryBrand->fetchAll(PDO::FETCH_ASSOC);
                 
             }
-            if(isset($_POST)){
+            if(isset($_POST) && isset($_POST['btnAdd'])){
                 if(!empty($_POST['productName']) && !empty($_POST['productPrice'])){
                     $queryInsert = $conn->newQuery("INSERT INTO hifi_products (productTitle, productDetails, productprice, productBrandId, productPicture, productCategoryId)
                                                     VALUES(:TITLE, :DETAILS, :PRICE, :BRANDID, :PICTUREID, :CATID)");
@@ -58,12 +58,11 @@
             }
         }
         if($_GET['option'] === 'Page' && $_GET['id']){
-            // In trhe works            
-
+            // In the works            
+            
         }
     }else{
-        $offset = 0;
-        $limit = 40;
+    
         $queryProducts = $conn->newQuery(" SELECT pid, productTitle, productDetails, productPrice,
                                             brandName,
                                             pictureFilename, pictureTitle,
@@ -72,7 +71,7 @@
                                             LEFT JOIN hifi_category ON catId = productCategoryId
                                             LEFT JOIN hifi_pictures ON pictureId = productPicture
                                             LEFT JOIN hifi_brands ON bid = productBrandId
-                                            LIMIT $offset,$limit
+                                            
                                         ");
         if($queryProducts->execute()){
             $products = $queryProducts->fetchAll(PDO::FETCH_ASSOC);
@@ -149,14 +148,14 @@
                         </div>
                         <div class="panel-body">
                           <pre>
-                            <?=print_r($_GET)?><br> Defined base : <?=BASE?><br><?=print_r(@$pagination, true)?>
+                            <?=print_r($_GET)?><br> Defined base : <?=BASE?><br><?=print_r(@$productView, true)?>
                           </pre>
                       </div>
                     </div>
                   </div>
                 </div>
                 <!-- /.row -->
-                 <div class="row <?=$getParamOpt === 'Add' ? 'hidden': ''?>">
+                 <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'View' ? 'hidden': ''?>">
                   <div class="col-lg-4">
                           <a href="<?=BASE?>/Products/Add/" class="btn btn-success"><i class="fa fa-plus"></i>Tilføj Produkt</a>
                     </div>
@@ -200,7 +199,10 @@
                   </div>
                 
                 <!-- /.row -->
-                <div class="row <?=$getParamOpt !== 'Add' ? 'hidden': ''?>">
+                <?php
+                    if(@$getParamOpt === 'Add'){
+                ?>
+                <div class="row">
                   <div class="col-lg-10">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -279,11 +281,108 @@
                                 <img id="showPic" src="">
                                 <span id="showPic"></span>
                             </div>
-                            <button type="submit" class="btn btn-lg btn-success">Tilføj</button>
+                            <button type="submit" name="btnAdd" class="btn btn-lg btn-success">Tilføj</button>
                         </form>
                       </div>
                     </div>
                   </div>
+
+                    <?php } ?>
+                
+                
+                
+                
+                <!-- /.row -->
+
+
+                <?php
+                    if(@$getParamOpt === 'View' && !empty($_GET['id'])){
+                ?>
+                <div class="row">
+                  <div class="col-lg-10">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <i class="fa fa-pencil fa-2x"></i>
+                                      Redigér produkt
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                          <form method="post" action="">
+    
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2">Produkt navn</span>
+                                <input type="text" class="form-control" value="<?=$productView['productTitle']?>" name="productName" aria-describedby="sizing-addon2">
+                            </div>
+                            <div class="input-group">
+                                <label for="">Produkt beskrivelse</label>
+                                <textarea name="productDetails" class="form-control" col="15" rows="10"><?=$productView['productDetails']?>
+                                </textarea>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon5">DKK kr.</span>
+                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" value="<?=$productView['productPrice']?>" aria-describedby="sizing-addon5">
+                            </div>
+                            <div class="input-group">
+                                <label for="basic-url">Kategori</label>
+                                <select name="productCategory">
+                                    <?php
+                                        foreach($infoArr['Cat'] as $Category){
+                                    ?>
+                                        <option value="<?=$Category['catid']?>" <?= $productView['categoryName'] === $Category['categoryName'] ? 'selected':''?>><?=utf8_encode($Category['categoryName'])?></option>
+
+                                        <?php
+                                        }
+                                        ?>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="basic-url">Mærke</label>
+                                <select name="brand">
+                                    <?php
+                                        foreach($infoArr['Brand'] as $Brand){
+                                    ?>
+                                        <option value="<?=$Brand['bid']?>" <?= $productView['brandName'] === $Brand['brandName'] ? 'selected':''?>><?=utf8_encode($Brand['brandName'])?></option>
+
+                                        <?php
+                                        }
+                                        ?>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="basic-url">Produkt billede</label>
+                                
+                                <select id="productPic" name="productPicture">
+                                        <?php
+                                        foreach($infoArr['Pic'] as $Picture){
+                                    ?>
+                                        <option value="<?=$Picture['pictureid']?>" <?= $productView['pictureFilename'] === $Picture['picturefilename'] ? 'selected':''?>><?=$Picture['picturefilename']?></option>
+
+                                        <?php
+                                        }
+                                        ?>
+                                </select><br>
+                                <script>
+                                    $(document).ready(()=>{
+                                        var picture = $('#productPic option:selected').text();
+                                            $("#showPic").attr("src","<?=IMGBASE?>/prod_image/" + picture);
+                                        $('#productPic').on('change', function() {
+                                            var picture = $('#productPic option:selected').text();
+                                            $("#showPic").attr("src","<?=IMGBASE?>/prod_image/" + picture);
+                                        });
+                                    });
+                                    </script>
+                                <img id="showPic" src="">
+                                <span id="showPic"></span>
+                            </div>
+                            <button type="submit" name="btnUpdate" class="btn btn-lg btn-info">Redigér</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <?php } ?>
                 </div>
             </div>
             <!-- /.container-fluid -->
