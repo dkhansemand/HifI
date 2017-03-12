@@ -28,12 +28,12 @@
                     $productDetails = $_POST['productDetails'];
                     $productPrice = $_POST['productPrice'];
 
-                    if(!preg_match('/^[a-zA-ZÆØÅæøå0-9]+$/', $productName)){
+                    if(!preg_match('/\w+$/', $productName)){
                         ++$errCount;
                         $errProdName = 'Feltet må kun indholde bogstaver og tal.';
                     }
 
-                    if(!preg_match('/^[a-zA-ZÆØÅæøå0-9]+$/', $productDetails)){
+                    if(!preg_match('/^[a-zA-ZÆØÅæøå0-9\s._-]+$/', $productDetails)){
                         ++$errCount;
                         $errProdDetails = 'Feltet må kun indholde bogstaver og tal.';
                     }
@@ -71,11 +71,55 @@
 
             if(isset($_POST) && isset($_POST['btnUpdate'])){
                 if(!empty($_POST['productName']) && !empty($_POST['productPrice'])){
-                    $productUpdate = $_POST;
-                    $success = true;
-                    $successErr = false;
-                    $successTitle = 'Produkt opdateret';
-                    $successMsg = 'Produktet "' . $_POST['productName'] . '" er nu opdateret i databasen';
+                    $errCount = 0;
+                    $pid = (int)$_GET['id'];
+                    $productName = $_POST['productName'];
+                    $productDetails = $_POST['productDetails'];
+                    $productPrice = $_POST['productPrice'];
+
+                    if(!preg_match('/\w+$/', $productName)){
+                        ++$errCount;
+                        $errProdName = 'Feltet må kun indholde bogstaver og tal.';
+                    }
+
+                    if(!preg_match('/^[a-zA-ZÆØÅæøå0-9\s._-]+$/', $productDetails)){
+                        ++$errCount;
+                        $errProdDetails = 'Feltet må kun indholde bogstaver og tal.';
+                    }
+
+                    if(!preg_match('/^([1-9][0-9]*|0)(\,[0-9]{2})?$/', $productPrice)){
+                        ++$errCount;
+                        $errProdPrice = 'Feltet må kun indholde tal i format 00,00.';
+                    }
+
+                    if($errCount === 0){
+                        $queryUpdate = $conn->newQuery("UPDATE hifi_products
+                                                        SET productBrandId = :BRANDID, productCategoryId = :CATID, productDetails = :DETAILS,
+                                                        productPicture = :PICTUREID, productPrice = :PRICE, productTitle = :TITLE
+                                                        WHERE pid = :ID;");
+                        $queryUpdate->bindParam(':TITLE', $productName, PDO::PARAM_STR);   
+                        $queryUpdate->bindParam(':DETAILS', $productDetails, PDO::PARAM_STR);      
+                        $queryUpdate->bindParam(':PRICE', $productPrice, PDO::PARAM_STR);     
+                        $queryUpdate->bindParam(':BRANDID', $_POST['brand'], PDO::PARAM_INT);   
+                        $queryUpdate->bindParam(':PICTUREID', $_POST['productPicture'], PDO::PARAM_INT);       
+                        $queryUpdate->bindParam(':CATID', $_POST['productCategory'], PDO::PARAM_INT); 
+                        $queryUpdate->bindParam(':ID', $pid, PDO::PARAM_INT); 
+
+                        if($queryUpdate->execute())
+                        {
+                            $productUpdate = $_POST;
+                            $success = true;
+                            $successErr = false;
+                            $successTitle = 'Produkt opdateret';
+                            $successMsg = 'Produktet "' . $_POST['productName'] . '" er nu opdateret i databasen';
+                        }
+                    }else{
+                        $success = true;
+                        $successErr = true;
+                        $successTitle = 'Fejl i indtastning!';
+                        $successMsg = 'Produktnavn, produkt beskrivelse og produkt pris, skal udfyldes og være i korrekt format.';
+                    }
+
                 }
             }
         }
