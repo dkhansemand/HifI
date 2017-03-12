@@ -1,5 +1,5 @@
 <?php
-    if(!empty($_GET['option'])){
+    if(isset($_GET['option'])){
         $getParamOpt = $_GET['option'];
 
         if($getParamOpt === 'Add'){
@@ -20,9 +20,8 @@
                 $infoArr['Brand'] = $queryBrand->fetchAll(PDO::FETCH_ASSOC);
                 
             }
-             if(isset($_POST)){
-                 $getParamPost = $_POST;
-                 if(!empty($_POST['productName']) && !empty($_POST['productPrice'])){
+            if(isset($_POST)){
+                if(!empty($_POST['productName']) && !empty($_POST['productPrice'])){
                     $queryInsert = $conn->newQuery("INSERT INTO hifi_products (productTitle, productDetails, productprice, productBrandId, productPicture, productCategoryId)
                                                     VALUES(:TITLE, :DETAILS, :PRICE, :BRANDID, :PICTUREID, :CATID)");
                     $queryInsert->bindParam(':TITLE', $_POST['productName'], PDO::PARAM_STR);   
@@ -38,7 +37,7 @@
                         $successMsg = 'Produktet "' . $_POST['productName'] . '" er nu tilføjet til databasen';
                     }                          
                 }
-             }
+            }
         }
 
         if($getParamOpt === 'View' && !empty($_GET['id'])){
@@ -58,7 +57,13 @@
                 $productView = $queryProduct->fetch(PDO::FETCH_ASSOC);
             }
         }
+        if($_GET['option'] === 'Page' && $_GET['id']){
+            // In trhe works            
+
+        }
     }else{
+        $offset = 0;
+        $limit = 40;
         $queryProducts = $conn->newQuery(" SELECT pid, productTitle, productDetails, productPrice,
                                             brandName,
                                             pictureFilename, pictureTitle,
@@ -67,11 +72,13 @@
                                             LEFT JOIN hifi_category ON catId = productCategoryId
                                             LEFT JOIN hifi_pictures ON pictureId = productPicture
                                             LEFT JOIN hifi_brands ON bid = productBrandId
+                                            LIMIT $offset,$limit
                                         ");
         if($queryProducts->execute()){
             $products = $queryProducts->fetchAll(PDO::FETCH_ASSOC);
         }
     }
+    
 
 
 ?>
@@ -142,7 +149,7 @@
                         </div>
                         <div class="panel-body">
                           <pre>
-                            <?=print_r($_GET)?><br> Defined base : <?=BASE?><br><?=print_r($productView)?>
+                            <?=print_r($_GET)?><br> Defined base : <?=BASE?><br><?=print_r(@$pagination, true)?>
                           </pre>
                       </div>
                     </div>
@@ -159,7 +166,7 @@
                 <div class="row <?=$getParamOpt === 'View' || $getParamOpt === 'Add' ? 'hidden': ''?>">
                   <div class="col-lg-12">
                         <h2>Produkter</h2>
-                        <table class="table table-stripped table-hover">
+                        <table class="table table-bordered table-hover">
                             <thead>
                                 <th>Titel</th>
                                 <th>Beskrivelse</th>
@@ -171,18 +178,20 @@
                             </thead>
                             <tbody>
                                 <?php
-                                    for($productCount = 0; $productCount < count($products); $productCount++){
-                                    ?>
-                                    <tr>
-                                        <td><?=$products[$productCount]['productTitle']?></td>
-                                        <td><?=$products[$productCount]['productDetails']?></td>
-                                        <td><?=$products[$productCount]['productPrice']?></td>
-                                        <td><?=$products[$productCount]['brandName']?></td>
-                                        <td><?=utf8_encode($products[$productCount]['categoryName'])?></td>
-                                        <td><img src="<?=IMGBASE.'/prod_image/'.$products[$productCount]['pictureFilename']?>" alt="<?=$products[$productCount]['pictureTitle']?>" height="85" width="auto"></td>
-                                        <td><a href="./View/<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a></td>
-                                    </tr>
-                                    <?php
+                                    if(!empty($products)){
+                                        for($productCount = 0; $productCount < count($products); $productCount++){
+                                        ?>
+                                        <tr>
+                                            <td><?=$products[$productCount]['productTitle']?></td>
+                                            <td><?=$products[$productCount]['productDetails']?></td>
+                                            <td><?=$products[$productCount]['productPrice']?></td>
+                                            <td><?=$products[$productCount]['brandName']?></td>
+                                            <td><?=utf8_encode($products[$productCount]['categoryName'])?></td>
+                                            <td><img src="<?=IMGBASE.'/prod_image/'.$products[$productCount]['pictureFilename']?>" alt="<?=$products[$productCount]['pictureTitle']?>" height="85" width="auto"></td>
+                                            <td><a href="./View/<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a></td>
+                                        </tr>
+                                        <?php
+                                        }
                                     }
                                 ?>
                             </tbody>
