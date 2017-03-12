@@ -157,7 +157,7 @@
                                         <td><?=$products[$productCount]['brandName']?></td>
                                         <td><?=utf8_encode($products[$productCount]['categoryName'])?></td>
                                         <td><img src="<?=IMGBASE.'/prod_image/'.$products[$productCount]['pictureFilename']?>" alt="<?=$products[$productCount]['pictureTitle']?>" height="85" width="auto"></td>
-                                        <td><a href="<?=BASE?>/View/<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a></td>
+                                        <td><a href="./View/<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a></td>
                                     </tr>
                                     <?php
                                     }
