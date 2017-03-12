@@ -93,10 +93,7 @@
                 $productView = $queryProduct->fetch(PDO::FETCH_ASSOC);
             }
         }
-        if($_GET['option'] === 'Page' && $_GET['id']){
-            // In the works for pagination           
-            
-        }
+
     }else{
     
         $queryProducts = $conn->newQuery(" SELECT pid, productTitle, productDetails, productPrice,
@@ -199,6 +196,7 @@
                   </div>
                 
                 <!-- /.row -->
+                <!-- Produkt list -->
                 <div class="row <?=$getParamOpt === 'View' || $getParamOpt === 'Add' ? 'hidden': ''?>">
                   <div class="col-lg-12">
                         <h2>Produkter</h2>
@@ -239,6 +237,7 @@
                 <?php
                     if(@$getParamOpt === 'Add'){
                 ?>
+                <script src="<?=BASE?>/js/validateProduct.js"></script>
                 <div class="row">
                   <div class="col-lg-10">
                     <div class="panel panel-success">
@@ -255,19 +254,19 @@
     
                             <div class="input-group col-lg-6 has-feedback">
                                 <span class="input-group-addon" id="sizing-addon2">Produkt navn</span>
-                                <input type="text" class="form-control" placeholder="Produkt navn" name="productName" value="<?=@$productName?>" aria-describedby="sizing-addon2" required>
+                                <input type="text" class="form-control" placeholder="Produkt navn" name="productName" id="productName" value="<?=@$productName?>" aria-describedby="sizing-addon2" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg alert-warning"><?=@$errProdName?></span>
                             </div><br>
                             <div class="input-group has-feedback">
                                 <label for="">Produkt beskrivelse</label>
-                                <textarea name="productDetails" class="form-control" col="15" rows="10" required><?=@$productDetails?></textarea><br>
+                                <textarea name="productDetails" id="productDetails" class="form-control" col="15" rows="10" required><?=@$productDetails?></textarea>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg alert-warning"><?=@$errProdDetails?></span>
                             </div><br>  
                             <div class="input-group col-lg-4 has-feedback">
                                 <span class="input-group-addon" id="sizing-addon5">kr. (00,00)</span>
-                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" value="<?=@$productPrice?>" aria-describedby="sizing-addon5" required>
+                                <input type="text" class="form-control" placeholder="Produkt pris" name="productPrice" id="productPrice" value="<?=@$productPrice?>" aria-describedby="sizing-addon5" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg alert-warning"><?=@$errProdPrice?></span>
                             </div><br>
