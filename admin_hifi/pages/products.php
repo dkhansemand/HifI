@@ -38,7 +38,7 @@
                         $errProdDetails = 'Feltet må kun indholde bogstaver og tal.';
                     }
 
-                    if(!preg_match('/^([1-9][0-9]*|0)(\,[0-9]{2})?$/', $productPrice)){
+                    if(!preg_match('/^([0-9]\d*|0)(\,[0-9]{2})?$/', $productPrice)){
                         ++$errCount;
                         $errProdPrice = 'Feltet må kun indholde tal i format 00,00.';
                     }
@@ -87,7 +87,7 @@
                         $errProdDetails = 'Feltet må kun indholde bogstaver og tal.';
                     }
 
-                    if(!preg_match('/^([1-9][0-9]*|0)(\,[0-9]{2})?$/', $productPrice)){
+                    if(!preg_match('/^([0-9]\d*|0)(\,[0-9]{2})?$/', $productPrice)){
                         ++$errCount;
                         $errProdPrice = 'Feltet må kun indholde tal i format 00,00.';
                     }

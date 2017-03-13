@@ -56,7 +56,7 @@ var validateProduct = {
         productprice: (inputField) => {
             "use strict";
             var priceVal = $(inputField).val(),
-                priceRegex = /^([1-9][0-9]*|0)(\,[0-9]{2})?$/;
+                priceRegex = /^([0-9]\d*|0)(\,[0-9]{2})?$/;
             if(priceVal.length !== 0 && priceRegex.test(priceVal)){
                 $(inputField).parent('div')
                                 .removeClass("has-error")
