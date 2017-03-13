@@ -17,7 +17,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i>  <a href="<?=BASE?>/Dashboard/">Kontrolpanel</a>
+                                <i class="fa fa-dashboard"></i>  <a href="./index.php?p=Dashboard">Kontrolpanel</a>
                             </li>
                         </ol>
                     </div>
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                          <a href="<?=BASE?>/Products/Add/" class="btn btn-success">Produkt</a>
+                          <a href="./index.php?p=Products&option=Add" class="btn btn-success">Produkt</a>
                       </div>
                     </div>
                   </div>
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="<?=BASE?>/Messages/">
+                            <a href="./index.php?p=Messages">
                                 <div class="panel-footer">
                                     <span class="pull-left">Se nye beskeder</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

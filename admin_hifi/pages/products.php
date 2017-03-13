@@ -165,7 +165,7 @@
                         <p>Produktet er nu blevet slettet i databasen!</p>
                     </div>
                     <div class="modal-footer">
-                        <a href="<?=BASE?>/Products/" class="btn btn-success">OK</a>
+                        <a href="./index.php?p=Products" class="btn btn-success">OK</a>
                     </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -208,23 +208,23 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="<?=BASE?>/Dashboard/">Kontrolpanel</a>
+                                <i class="fa fa-dashboard"></i>  <a href="./index.php?p=Dashboard">Kontrolpanel</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-cubes"></i>  <a href="<?=BASE?>/Products/">Produkter</a>
+                                <i class="fa fa-cubes"></i>  <a href="./index.php?p=Products">Produkter</a>
                             </li>
                             <?php
                             if(@$getParamOpt === 'Add'){
                             ?>
                                 <li class="active">
-                                    <a href="<?=BASE?>/Products/Add/">Tilføj produkt</a>
+                                    <a href="./index.php?p=Products&option=Add">Tilføj produkt</a>
                                 </li>
                             <?php
                             }
                             if(@$getParamOpt === 'View'){
                             ?>
                                 <li class="active">
-                                    <a href="<?=BASE?>/Products/View/<?=$productId?>"><?=$productView['brandName'] . ' - ' . $productView['productTitle']?></a>
+                                    <a href="./index.php?p=Products&option=View&id=<?=$productId?>"><?=$productView['brandName'] . ' - ' . $productView['productTitle']?></a>
                                 </li>
                             <?php
                             }
@@ -272,7 +272,7 @@
                 <!-- /.row -->
                  <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'View' || $getParamOpt === 'Delete' ? 'hidden': ''?>">
                   <div class="col-lg-4">
-                          <a href="<?=BASE?>/Products/Add/" class="btn btn-success"><i class="fa fa-plus"></i>Tilføj Produkt</a>
+                          <a href="./index.php?p=Products&option=Add" class="btn btn-success"><i class="fa fa-plus"></i>Tilføj Produkt</a>
                     </div>
                   </div>
                 
@@ -307,7 +307,7 @@
                                             <td><?=utf8_encode($products[$productCount]['categoryName'])?></td>
                                             <td><img src="<?=IMGBASE.'/prod_image/'.$products[$productCount]['pictureFilename']?>" alt="<?=$products[$productCount]['pictureTitle']?>" height="85" width="auto"></td>
                                             <td>
-                                                <a href="./View/<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a>
+                                                <a href="./index.php?p=Products&option=View&id=<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a>
                                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete" data-productName="<?=$products[$productCount]['productTitle']?>" data-pid="<?=$products[$productCount]['pid']?>">Slet</button>
                                                 
                                             </td>
@@ -330,7 +330,7 @@
                                 modal.find('#productName').text(productName);
                             });
                                 $('#btnDelete').on('click', ()=>{
-                                    window.location = './Delete/'+pid;
+                                    window.location = './index.php?p=Products&option=Delete&id='+pid;
                                 });
                             });
                         </script>

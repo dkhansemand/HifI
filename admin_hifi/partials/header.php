@@ -63,15 +63,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?=BASE?>/Dashboard/">HiFi - Kontrolpanel</a>
+                <a class="navbar-brand" href="./index.php?p=Dashboard">HiFi - Kontrolpanel</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li>
-                    <a href="<?=BASE?>/Profile/"><i class="fa fa-user"></i> <?=@$username?></a>
+                    <a href="./index.php?p=Profile"><i class="fa fa-user"></i> <?=@$username?></a>
                 </li>
                 <li>
-                    <a href="<?=BASE?>/Logout/"><i class="fa fa-power-off"></i> Log ud</a>
+                    <a href="./index.php?p=Logout"><i class="fa fa-power-off"></i> Log ud</a>
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -82,13 +82,13 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#general"><i class="fa fa-fw fa-arrows-v"></i> Generalt <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="general" class="collapse in">
                             <li>
-                                <a href="<?=BASE?>/Dashbaord/"><i class="fa fa-fw fa-dashboard"></i> Kontrolpanel</a>
+                                <a href="./index.php?p=Dashboard"><i class="fa fa-fw fa-dashboard"></i> Kontrolpanel</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/Users/"><i class="fa fa-fw fa-user"></i> Brugere</a>
+                                <a href="./index.php?p=Users"><i class="fa fa-fw fa-user"></i> Brugere</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/Settings/"><i class="fa fa-fw fa-wrench"></i> Shop indstillinger</a>
+                                <a href="./index.php?p=Settings"><i class="fa fa-fw fa-wrench"></i> Shop indstillinger</a>
                             </li>
                         </ul>
                     </li>
@@ -97,28 +97,28 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#indhold"><i class="fa fa-fw fa-arrows-v"></i> Indhold <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="indhold" class="collapse">
                             <li>
-                                <a href="<?=BASE?>/Messages/"><i class="fa fa-fw fa-envelope"></i> Beskeder</a>
+                                <a href="./index.php?p=Messages"><i class="fa fa-fw fa-envelope"></i> Beskeder</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/Pictures/"><i class="fa fa-fw fa-picture-o"></i> Billeder</a>
+                                <a href="./index.php?p=Pictures"><i class="fa fa-fw fa-picture-o"></i> Billeder</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/Brands/"><i class="fa fa-fw fa-tags"></i> Brands</a>
+                                <a href="./index.php?p=Brands"><i class="fa fa-fw fa-tags"></i> Brands</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/FrontPage/"><i class="fa fa-fw fa-home"></i> Forside</a>
+                                <a href="./index.php?p=FrontPage"><i class="fa fa-fw fa-home"></i> Forside</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/Categories/"><i class="fa fa-fw fa-list-alt"></i> Kategorier</a>
+                                <a href="./index.php?p=Categories"><i class="fa fa-fw fa-list-alt"></i> Kategorier</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/News/"><i class="fa fa-fw fa-newspaper-o"></i> Nyheder</a>
+                                <a href="./index.php?p=News"><i class="fa fa-fw fa-newspaper-o"></i> Nyheder</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/Products/"><i class="fa fa-fw fa-cubes"></i> Produkter</a>
+                                <a href="./index.php?p=Products"><i class="fa fa-fw fa-cubes"></i> Produkter</a>
                             </li>
                             <li>
-                                <a href="<?=BASE?>/Slider/"><i class="fa fa-fw fa-object-group"></i> Slider</a>
+                                <a href="./index.php?p=Slider"><i class="fa fa-fw fa-object-group"></i> Slider</a>
                             </li>
                         </ul>
                     </li>
