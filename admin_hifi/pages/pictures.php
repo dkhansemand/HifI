@@ -63,8 +63,46 @@
                 </div>
                 <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'Delete' ? 'hidden': ''?>">
                   <div class="col-lg-4">
-                          <a href="./index.php?p=Pictures&option=Add" class="btn btn-success"><i class="fa fa-plus"></i>Tilføj Billede</a>
+                          
+                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddPicture"><i class="fa fa-plus"></i> Tilføj billede </button>
                     </div>
+                    <div class="modal fade" id="modalAddPicture" tabindex="-1" role="dialog" aria-labelledby="ModalAddPicture">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Tilføj nyt billede</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="./lib/fileupload.php" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="pictureTitle">Billede titel</label>
+                                            <input type="text" class="form-control" id="pictureTitle" name="pictureTitle" placeholder="Titel">
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="pictureAssign">Billede placering</label>
+                                            <select name="pictureAssign" id="pictureAssign">
+                                                <option value="0">Andre</option>
+                                                <option value="1">Produkt billede</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="exampleInputFile">Billede</label>
+                                            <input type="file" name="picturefile" id="exampleInputFile">
+                                            <p class="help-block">Billede må max være på 1.5MB og i formater (.jpg, .jpeg, .png, .gif).</p>
+                                        </div>
+                                        
+                                        <button type="submit" id="btnUpload" class="btn btn-success">Upload</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Anullér</button>
+                                    
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                   </div><br>
 
             <div class="row <?=empty($getParamOpt) ? '' : 'hidden'?>">
