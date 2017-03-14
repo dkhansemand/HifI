@@ -4,12 +4,12 @@ ini_set('html_errors', false);
 require_once '../../lib/class.mysql.php';
 
 if($_POST){
-    print_r($_POST);
-    print_r($_FILES);
+    ##print_r($_POST);
+    ##print_r($_FILES);
     if(!empty($_POST["pictureTitle"]) ){
-            if(preg_match('/^.*\.(jpg|jpeg|png|gif)$/i', $_FILES["picturefile"]["name"])){
-                if($_FILES["picturefile"]["size"] < 1536000 && $_FILES["picturefile"]["error"] == 0){
-                    $filename = date("dmyHisu") . $_FILES["picturefile"]["name"];
+            if(preg_match('/^.*\.(jpg|jpeg|png|gif)$/i', $_FILES[0]["name"])){
+                if($_FILES[0]["size"] < 1536000 && $_FILES[0]["error"] == 0){
+                    $filename = date("dmyHisu") . $_FILES[0]["name"];
 
                     $title = filter_var($_POST['pictureTitle'], FILTER_SANITIZE_STRING);
                     if($_POST['pictureAssign'] == 1){
@@ -31,7 +31,7 @@ if($_POST){
 
                     if($queryPicture->execute() && $queryPictureLast->execute()){
                         $result['queryResponse'] = $queryPictureLast->fetch(PDO::FETCH_ASSOC);
-                        if (move_uploaded_file($_FILES['picturefile']['tmp_name'], $uploadDir . $filename)) {
+                        if (move_uploaded_file($_FILES[0]['tmp_name'], $uploadDir . $filename)) {
                             $result['msg'] = 'Billedet er nu uploadet og tilføjet til databasen!';
                             $result['errState'] = 0;
                             
