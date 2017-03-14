@@ -7,10 +7,11 @@ $(document).ready( () => {
     // Grab the files and set them to our variable
     function prepareUpload(event)
     {
-    files = event.target.files;
+        files = event.target.files;
     }
     $('#pictureUploadForm').submit( (event) => {
         event.preventDefault();
+        if(files !== null){
         // Create a formdata object and add the files
         var data = new FormData();
         $.each(files, function(key, value)
@@ -41,6 +42,8 @@ $(document).ready( () => {
                     if(res.errState === 0){
                         $('#errMsg').hide();
                         $('#successMsg').toggleClass('hidden').html(res.msg);
+                        $('#pictureTitle').val('');
+                        $('#pictureUploadForm input[type=file]').val('');
                         let imgbase = res.queryResponse.pictureIsProduct == 1 ? 'prod_image' : 'img';
                         let productImg = `
                         <div class="col-sm-6 col-md-4 col-lg-4">
@@ -49,7 +52,7 @@ $(document).ready( () => {
                                     - <small>${res.queryResponse.pictureTitle}</small>
                                 </div>
                                 <div class="panel-body">
-                                    <img src="<?=IMGBASE?>/${imgbase}/${res.queryResponse.pictureFilename}" height="85" width="125" alt="${res.queryResponse.pictureTitle}">
+                                    <img src="../${imgbase}/${res.queryResponse.pictureFilename}" height="85" width="125" alt="${res.queryResponse.pictureTitle}">
                                 </div>
                             <div class="panel-footer">
                                 <a href="./index.php?p=Pictures&option=Delete&id=${res.queryResponse.pictureId}" class="btn btn-danger" role="button">Slet</a>
@@ -93,5 +96,6 @@ $(document).ready( () => {
                     return myXhr;
                 }
             });
+        }
     });
 });
