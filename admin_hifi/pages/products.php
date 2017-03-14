@@ -363,7 +363,7 @@
     
                             <div class="input-group col-lg-6 has-feedback">
                                 <span class="input-group-addon" id="sizing-addon2">Produkt navn</span>
-                                <input type="text" class="form-control" placeholder="Produkt navn" name="productName" id="productName" value="<?=@$productName?>" aria-describedby="sizing-addon2" required>
+                                <input type="text" class="form-control" placeholder="Produkt navn" name="productNameA" id="productNameA" value="<?=@$productName?>" aria-describedby="sizing-addon2" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg alert-warning"><?=@$errProdName?></span>
                             </div><br>

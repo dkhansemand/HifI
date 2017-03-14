@@ -84,8 +84,9 @@ $(document).ready( () => {
     // Validate input when user types and releases the key
     $("#productAddForm").keyup( (objForm) => {
         "use strict";
-        if(objForm.target.name === "productName"){
-            validateProduct.productname("#productName");
+        if(objForm.target.name === "productNamet"){
+        console.log(validateProduct.productname("#productNameA"));
+            validateProduct.productname("#productNameA");
         }else if(objForm.target.name === "productDetails"){
             validateProduct.productdetail("#productDetails");
         }else if(objForm.target.name === "productPrice"){
@@ -109,7 +110,7 @@ $(document).ready( () => {
         "use strict";
         if(objForm.target.name === "productName"){
             validateProduct.productname("#productName");
-        }else if(objForm.target.name === "produktDetails"){
+        }else if(objForm.target.name === "productDetails"){
             validateProduct.productdetail("#productDetails");
         }else if(objForm.target.name === "productPrice"){
             validateProduct.productprice("#productPrice");
@@ -120,7 +121,7 @@ $(document).ready( () => {
         "use strict";
         if(objForm.target.name === "productName"){
             validateProduct.productname("#productName");
-        }else if(objForm.target.name === "produktDetails"){
+        }else if(objForm.target.name === "productDetails"){
             validateProduct.productdetail("#productDetails");
         }else if(objForm.target.name === "productPrice"){
             validateProduct.productprice("#productPrice");

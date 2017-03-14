@@ -14,10 +14,10 @@
                 }else{
                     $pictureDir = '../img/';
                 }
-                if(unlink($pictureDir . $filename['pictureFilename'])){
                     $queryDeleteImg = $conn->newQuery("DELETE FROM hifi_pictures WHERE pictureId = :ID");
                     $queryDeleteImg->bindParam(':ID', $pictureId, PDO::PARAM_INT);
                     if($queryDeleteImg->execute()){
+                if(unlink($pictureDir . $filename['pictureFilename'])){
                          ?>
 
                         <script type="text/javascript">
