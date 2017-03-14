@@ -2,8 +2,51 @@
     if(isset($_GET['option'])){
         $getParamOpt = $_GET['option'];
 
-        if($getParamOpt === 'Add'){
-            // Add picture function
+        if($getParamOpt === 'Delete' && !empty($_GET['id'])){
+            // Delete picture
+            $pictureId = (int)$_GET['id'];
+            $getPicture = $conn->newQuery("SELECT pictureFilename, pictureIsProduct FROM hifi_pictures WHERE pictureId = :ID");
+            $getPicture->bindParam(':ID', $pictureId, PDO::PARAM_INT);
+            if($getPicture->execute()){
+                $filename = $getPicture->fetch(PDO::FETCH_ASSOC);
+                if($filename['pictureIsProduct'] == 1){
+                    $pictureDir = '../prod_image/';
+                }else{
+                    $pictureDir = '../img/';
+                }
+                if(unlink($pictureDir . $filename['pictureFilename'])){
+                    $queryDeleteImg = $conn->newQuery("DELETE FROM hifi_pictures WHERE pictureId = :ID");
+                    $queryDeleteImg->bindParam(':ID', $pictureId, PDO::PARAM_INT);
+                    if($queryDeleteImg->execute()){
+                         ?>
+
+                        <script type="text/javascript">
+                            $(window).load(function(){
+                                $('.modal').modal('show');
+                            });
+                        </script>
+                        <div class="modal fade" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Billede "<?=$filename['pictureFilename']?>" slettet</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Billede er nu blevet slettet i databasen og fra serveren!</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="./index.php?p=Pictures" class="btn btn-success">OK</a>
+                                </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                <?php
+                    }
+                }
+               
+            }
         }
     }else{
         $queryPicture = $conn->newQuery("SELECT pictureId, pictureFilename, pictureTitle, pictureIsProduct FROM hifi_pictures");
@@ -55,6 +98,7 @@
                           <pre>
                             <?=print_r($_GET)?><br>
                             Defined base : <?=BASE?><br>
+                            <?=print_r($filename)?>
                             </pre>
                       </div>
                     </div>
@@ -110,6 +154,26 @@
                   </div><br>
 
             <div class="row <?=empty($getParamOpt) ? '' : 'hidden'?>">
+            <div class="modal fade" id="modalDeletePic" tabindex="-1" role="dialog" aria-labelledby="ModalDeletePicLbl">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Slet billede?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Er du sikker på, at du vil slette billedet "<span id="pictureFilename"></span>"?
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Anullér</button>
+                                    <button type="button" id="btnDeletePic" class="btn btn-danger">Slet billede</button>
+                                    
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 
                 <div class="col-lg-12">
                    
         
@@ -141,7 +205,8 @@
                                                 <img src="<?=IMGBASE?>/prod_image/<?=$picture['pictureFilename']?>" height="85" width="125" alt="<?=$picture['pictureTitle']?>">
                                             </div>
                                         <div class="panel-footer">
-                                            <a href="./index.php?p=Pictures&option=Delete&id=<?=$picture['pictureId']?>" class="btn btn-danger" role="button">Slet</a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeletePic" data-filename="<?=$picture['pictureFilename']?>" data-pid="<?=$picture['pictureId']?>">Slet</button>
+                                            
                                         </div>
                                     </div>
                                     </div>
@@ -170,7 +235,8 @@
                                                 <img src="<?=IMGBASE?>/img/<?=$picture['pictureFilename']?>" height="85" width="125" alt="<?=$picture['pictureTitle']?>">
                                             </div>
                                         <div class="panel-footer">
-                                           <a href="./index.php?p=Pictures&option=Delete&id=<?=$picture['pictureId']?>" class="btn btn-danger" role="button">Slet</a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeletePic" data-filename="<?=$picture['pictureFilename']?>" data-pid="<?=$picture['pictureId']?>">Slet</button>
+                                          
                                         </div>
                                     </div>
                                     </div>

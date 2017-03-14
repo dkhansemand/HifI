@@ -1,4 +1,27 @@
 $(document).ready( () => {
+     var pid;
+    $('#modalDelete').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); 
+        var productName = button.data('productname'); 
+        pid = button.data('pid');
+        var modal = $(this);
+        modal.find('#productName').text(productName);
+    });
+        $('#btnDelete').on('click', ()=>{
+            window.location = './index.php?p=Pictures&option=Delete&id='+pid;
+        });
+
+        $('#modalDeletePic').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var pictureName = button.data('filename'); 
+            pid = button.data('pid');
+            var modal = $(this);
+            modal.find('#pictureFilename').text(pictureName);
+        });
+        $('#btnDeletePic').on('click', ()=>{
+            window.location = './index.php?p=Pictures&option=Delete&id='+pid;
+        });
+
     // Variable to store your files
     var files;
     // Add events

@@ -320,21 +320,7 @@
                             </tbody>
                         </table>
                         <!-- Modal -->
-                        <script>
-                        $(document).ready(()=>{
-                            var pid;
-                            $('#modalDelete').on('show.bs.modal', function (event) {
-                                var button = $(event.relatedTarget); 
-                                var productName = button.data('productname'); 
-                                pid = button.data('pid');
-                                var modal = $(this);
-                                modal.find('#productName').text(productName);
-                            });
-                                $('#btnDelete').on('click', ()=>{
-                                    window.location = './index.php?p=Products&option=Delete&id='+pid;
-                                });
-                            });
-                        </script>
+                        
                         <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="ModalDeleteLbl">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
