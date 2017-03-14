@@ -54,11 +54,11 @@
                         $queryInsert->bindParam(':CATID', $_POST['productCategory'], PDO::PARAM_INT);  
 
                         if($queryInsert->execute()){
-                            unset($productName, $productDetails, $productPrice);
                             $success = true;
                             $successErr = false;
                             $successTitle = 'Produkt tilføjet';
                             $successMsg = 'Produktet "' . $productName . '" er nu tilføjet til databasen';
+                            unset($productName, $productDetails, $productPrice);
                         } 
                     }                         
                 }else{
@@ -141,25 +141,28 @@
                 $productView = $queryProduct->fetch(PDO::FETCH_ASSOC);
             }
         }
-        if($getParamOpt === 'Delete' && !empty($_GET['id'])){
-            $pid = (int) $_GET['id'];
 
-            $getPicture = $conn->newQuery("SELECT pictureFilename, pictureIsProduct FROM hifi_pictures WHERE pictureId = :ID");
+
+        if($getParamOpt === 'Delete' && !empty($_GET['id'])){
+            $pid = (int)$_GET['id'];
+
+            $getPicture = $conn->newQuery("SELECT pictureId, pictureFilename FROM hifi_products
+                INNER JOIN hifi_pictures ON pictureId = productPicture
+             WHERE pid = :ID");
             $getPicture->bindParam(':ID', $pid, PDO::PARAM_INT);
             if($getPicture->execute()){
                 $filename = $getPicture->fetch(PDO::FETCH_ASSOC);
-                if($filename['pictureIsProduct'] == 1){
+                $pictureId = $filename['pictureId'];
                     $pictureDir = '../prod_image/';
-                }else{
-                    $pictureDir = '../img/';
-                }
+                
             }
             
-            $queryDelete = $conn->newQuery("DELETE FROM hifi_products WHERE pid = :ID");
+            $queryDelete = $conn->newQuery("DELETE FROM hifi_products WHERE pid = :ID; DELETE FROM hifi_pictures WHERE pictureId = :PICID");
             $queryDelete->bindParam(':ID', $pid, PDO::PARAM_INT);
+            $queryDelete->bindParam(':PICID', $pictureId, PDO::PARAM_INT);
 
             if($queryDelete->execute()){
-                unlink($pictureDir . $filename['pictureFilename'])
+                if(unlink($pictureDir . $filename['pictureFilename'])){
             ?>
             <script type="text/javascript">
                 $(window).load(function(){
@@ -183,6 +186,31 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <?php
+            }else{
+               ?>
+            <script type="text/javascript">
+                $(window).load(function(){
+                    $('.modal').modal('show');
+                });
+            </script>
+            <div class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Fejl ved sletning</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><?=var_dump(unlink($pictureDir . $filename['pictureFilename']))?></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="./index.php?p=Products" class="btn btn-success">OK</a>
+                    </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <?php
+            }
             }
         }
 
@@ -523,7 +551,7 @@
     
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">Produkt navn</span>
-                                <input type="text" class="form-control" value="<?=$productView['productTitle']?>" name="productName" id="productName" aria-describedby="sizing-addon2" required>
+                                <input type="text" class="form-control" value="<?=$productView['productTitle']?>" name="productName" id="productNameU" aria-describedby="sizing-addon2" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg"><?=@$errProdName?></span>
                             </div>

@@ -96,7 +96,7 @@ $(document).ready( () => {
      $("#productUpdateForm").keyup( (objForm) => {
         "use strict";
         if(objForm.target.name === "productName"){
-            validateProduct.productname("#productName");
+            validateProduct.productname("#productNameU");
         }else if(objForm.target.name === "productDetails"){
             validateProduct.productdetail("#productDetails");
         }else if(objForm.target.name === "productPrice"){
@@ -107,8 +107,8 @@ $(document).ready( () => {
     // Validate input field if user TAB between fields
     $("#productAddForm").on('change', (objForm) => {
         "use strict";
-        if(objForm.target.name === "productName"){
-            validateProduct.productname("#productName");
+        if(objForm.target.name === "productNameA"){
+            validateProduct.productname("#productNameA");
         }else if(objForm.target.name === "productDetails"){
             validateProduct.productdetail("#productDetails");
         }else if(objForm.target.name === "productPrice"){
@@ -119,7 +119,7 @@ $(document).ready( () => {
     $("#productUpdateForm").on('change', (objForm) => {
         "use strict";
         if(objForm.target.name === "productName"){
-            validateProduct.productname("#productName");
+            validateProduct.productname("#productNameU");
         }else if(objForm.target.name === "productDetails"){
             validateProduct.productdetail("#productDetails");
         }else if(objForm.target.name === "productPrice"){
