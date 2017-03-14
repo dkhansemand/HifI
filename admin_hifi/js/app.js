@@ -8,7 +8,7 @@ $(document).ready( () => {
         modal.find('#productName').text(productName);
     });
         $('#btnDelete').on('click', ()=>{
-            window.location = './index.php?p=Pictures&option=Delete&id='+pid;
+            window.location = './index.php?p=Products&option=Delete&id='+pid;
         });
 
         $('#modalDeletePic').on('show.bs.modal', function (event) {
