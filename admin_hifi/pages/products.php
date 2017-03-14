@@ -22,9 +22,9 @@
             }
 
             if(isset($_POST) && isset($_POST['btnAdd'])){
-                if(!empty($_POST['productName']) && !empty($_POST['productPrice']) && !empty($_POST['productDetails'])){
+                if(!empty($_POST['productNameA']) && !empty($_POST['productPrice']) && !empty($_POST['productDetails'])){
                     $errCount = 0;
-                    $productName = $_POST['productName'];
+                    $productName = $_POST['productNameA'];
                     $productDetails = $_POST['productDetails'];
                     $productPrice = $_POST['productPrice'];
 
@@ -58,7 +58,7 @@
                             $success = true;
                             $successErr = false;
                             $successTitle = 'Produkt tilføjet';
-                            $successMsg = 'Produktet "' . $_POST['productName'] . '" er nu tilføjet til databasen';
+                            $successMsg = 'Produktet "' . $productName . '" er nu tilføjet til databasen';
                         } 
                     }                         
                 }else{
@@ -143,11 +143,23 @@
         }
         if($getParamOpt === 'Delete' && !empty($_GET['id'])){
             $pid = (int) $_GET['id'];
+
+            $getPicture = $conn->newQuery("SELECT pictureFilename, pictureIsProduct FROM hifi_pictures WHERE pictureId = :ID");
+            $getPicture->bindParam(':ID', $pid, PDO::PARAM_INT);
+            if($getPicture->execute()){
+                $filename = $getPicture->fetch(PDO::FETCH_ASSOC);
+                if($filename['pictureIsProduct'] == 1){
+                    $pictureDir = '../prod_image/';
+                }else{
+                    $pictureDir = '../img/';
+                }
+            }
             
             $queryDelete = $conn->newQuery("DELETE FROM hifi_products WHERE pid = :ID");
             $queryDelete->bindParam(':ID', $pid, PDO::PARAM_INT);
 
             if($queryDelete->execute()){
+                unlink($pictureDir . $filename['pictureFilename'])
             ?>
             <script type="text/javascript">
                 $(window).load(function(){

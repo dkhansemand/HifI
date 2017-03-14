@@ -179,46 +179,14 @@
         
                 <ul  class="nav nav-pills bg-default">
                     <li class="active">
-                         <a  href="#productPictures" data-toggle="tab">Produkt billeder</a>
-                    </li>
-                    <li>
-                        <a href="#OtherPictures" data-toggle="tab">Andre billeder</a>
+                        <a href="#OtherPictures" data-toggle="tab">Shop Billeder</a>
                     </li>
                     
                 </ul><br>
 
 			<div class="tab-content clearfix">
-			  <div class="tab-pane active" id="productPictures">
-                    <div class="row">
-                            <?php
-                            if(empty($getParamOpt)){
-                                foreach($pictures as $picture){
-                                    if($picture['pictureIsProduct'] == 1){
-                                    ?>
-                                    
-                                    <div class="col-sm-6 col-md-4 col-lg-4">
-                                        <div class="panel panel-primary">
-                                            <div class="panel-heading">
-                                                - <small><?=$picture['pictureTitle']?></small>
-                                            </div>
-                                            <div class="panel-body">
-                                                <img src="<?=IMGBASE?>/prod_image/<?=$picture['pictureFilename']?>" height="85" width="125" alt="<?=$picture['pictureTitle']?>">
-                                            </div>
-                                        <div class="panel-footer">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeletePic" data-filename="<?=$picture['pictureFilename']?>" data-pid="<?=$picture['pictureId']?>">Slet</button>
-                                            
-                                        </div>
-                                    </div>
-                                    </div>
-                                    
-                                    <?php
-                                    }
-                                }
-                            }
-                            ?>
-                            </div>
-				</div>
-				<div class="tab-pane" id="OtherPictures">
+			  
+				<div class="tab-pane active" id="OtherPictures">
                      <div class="row">
                             <?php
                              if(empty($getParamOpt)){

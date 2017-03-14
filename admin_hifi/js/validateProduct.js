@@ -84,8 +84,7 @@ $(document).ready( () => {
     // Validate input when user types and releases the key
     $("#productAddForm").keyup( (objForm) => {
         "use strict";
-        if(objForm.target.name === "productNamet"){
-        console.log(validateProduct.productname("#productNameA"));
+        if(objForm.target.name === "productNameA"){
             validateProduct.productname("#productNameA");
         }else if(objForm.target.name === "productDetails"){
             validateProduct.productdetail("#productDetails");
