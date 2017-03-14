@@ -22,7 +22,7 @@
                         </ol>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row hidden">
                   <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">

@@ -3,12 +3,90 @@ $(document).ready( () => {
     var files;
     // Add events
     $('#pictureUploadForm input[type=file]').on('change', prepareUpload);
-
+    $('#pictureProductForm input[type=file]').on('change', prepareUpload);
     // Grab the files and set them to our variable
     function prepareUpload(event)
     {
         files = event.target.files;
     }
+    $('#pictureProductForm').submit( (event) => {
+        event.preventDefault();
+        if(files !== null){
+        // Create a formdata object and add the files
+        var data = new FormData();
+        $.each(files, function(key, value)
+        {
+            data.append(key, value);
+        });
+         var pictureTitle = $('#pictureTitle').val(),
+            pictureAssign = $('#pictureAssign option:selected').val();
+            
+            data.append('pictureTitle', pictureTitle);
+            data.append('pictureAssign', pictureAssign);
+
+            $.ajax({
+                // Your server script to process the upload
+                url: './lib/fileupload.php',
+                type: 'POST',
+
+                // Form data
+                data: data,
+                dataType: 'json',
+                // Tell jQuery not to process data or worry about content-type
+                // You *must* include these options!
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: (res) => {
+                    //console.log('Success: ', res);
+                    if(res.errState === 0){
+                        $('#errMsg').hide();
+                        $('#successMsg').toggleClass('hidden').html(res.msg);
+                        $('#pictureTitle').val('');
+                        $('#pictureProductForm input[type=file]').val('');
+                        //let imgbase = 'prod_image';
+                        
+                        if(res.queryResponse.pictureIsProduct == 1){
+                            let newOption = `
+                            <option value="${res.queryResponse.pictureId}" selected>${res.queryResponse.pictureFilename}</option>
+                            `;
+                            $('#productPic').attr({selectedIndex : -1});
+                            $('#productPic').append(newOption);
+                            $("#showPic").attr("src","../prod_image/" + res.queryResponse.pictureFilename);
+                        }
+                    }
+                    if(res.errState === 1){
+                        
+                        $('#errMsg').toggleClass('hidden').html(res.msg);
+                    }
+                },
+                error: (res) => {
+                    console.log('Error: ', res);
+                    $('#errMsg').toggleClass('hidden').html(res);
+                    
+                },
+                // Custom XMLHttpRequest
+                xhr: function() {
+                    var myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) {
+                        // For handling the progress of the upload
+                        $('progress').toggleClass('hidden');
+                        myXhr.upload.addEventListener('progress', function(e) {
+                            if (e.lengthComputable) {
+                                $('progress').attr({
+                                    value: e.loaded,
+                                    max: e.total,
+                                });
+                            }
+                        } , false);
+                    }
+                    return myXhr;
+                }
+            });
+
+        }
+    });
+
     $('#pictureUploadForm').submit( (event) => {
         event.preventDefault();
         if(files !== null){
@@ -75,7 +153,7 @@ $(document).ready( () => {
                 },
                 error: (res) => {
                     console.log('Error: ', res);
-                        $('#errMsg').toggleClass('hidden').html(res);
+                    $('#errMsg').toggleClass('hidden').html(res);
                     
                 },
                 // Custom XMLHttpRequest

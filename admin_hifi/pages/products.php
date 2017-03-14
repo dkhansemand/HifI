@@ -195,6 +195,7 @@
 
 
 ?>
+<script src="./js/app.js"></script>
 <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -430,7 +431,12 @@
                                         <?php
                                         }
                                         ?>
-                                </select><br>
+                                </select>
+                                
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddPicture"><i class="fa fa-plus"></i> Tilføj billede </button>
+                                <br>
+
+                                
                                 <script>
                                     $(document).ready(()=>{
                                         var picture = $('#productPic option:selected').text();
@@ -446,6 +452,47 @@
                             </div>
                             <button type="submit" name="btnAdd" class="btn btn-lg btn-success">Tilføj</button>
                         </form>
+                         <div class="modal fade" id="modalAddPicture" tabindex="-1" role="dialog" aria-labelledby="ModalAddPicture">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">Tilføj nyt billede</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="#" id="pictureProductForm" method="post" enctype="multipart/form-data">
+                                                <div class="form-group">
+                                                    <label for="pictureTitle">Billede titel</label>
+                                                    <input type="text" class="form-control" id="pictureTitle" name="pictureTitle" placeholder="Titel" required>
+                                                </div>
+                                                <div class="form-group">
+                                                <label for="pictureAssign">Billede placering</label>
+                                                    <select name="pictureAssign" id="pictureAssign">
+                                                        <option value="1">Produkt billede</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <label for="exampleInputFile">Billede</label>
+                                                    <input type="file" name="picturefile" id="exampleInputFile" required>
+                                                    <p class="help-block">Billede må max være på 1.5MB og i formater (.jpg, .jpeg, .png, .gif).</p>
+                                                </div>
+                                                
+                                                <button type="submit" id="btnUpload" class="btn btn-success">Upload</button><br>
+                                                <div class="progress">
+                                                    <progress class="hidden"></progress><br>
+                                                </div>
+                                                <div class="alert alert-danger hidden" id="errMsg"></div>
+                                                <div class="alert alert-success hidden" id="successMsg"></div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Luk</button>
+                                            
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                       </div>
                     </div>
                   </div>

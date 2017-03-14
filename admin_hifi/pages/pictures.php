@@ -13,7 +13,6 @@
         }
     }
 
-
 ?>
 
 <script src="./js/app.js"></script>
@@ -102,7 +101,7 @@
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Anullér</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Luk</button>
                                     
                                 </div>
                                 </div>
