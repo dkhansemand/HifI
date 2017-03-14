@@ -273,6 +273,7 @@
                         </ol>
                     </div>
                 </div>
+                
                 <div class="row <?=@$success ? '' : 'hidden'?>">
                     <div class="col-lg-12">
                         <div class="panel panel-info">

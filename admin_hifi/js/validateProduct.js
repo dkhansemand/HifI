@@ -22,7 +22,7 @@ var validateProduct = {
                 $(inputField).next()
                                 .removeClass("glyphicon-ok")
                                 .addClass("glyphicon-remove")
-                                .next('.errMsg').html('Produktnavn skal udfyldes, og må ikke specialtegn');
+                                .next('.errMsg').html('Produktnavn skal udfyldes, og må ikke indholde specialtegn');
                 return false;
             }
         }, 
