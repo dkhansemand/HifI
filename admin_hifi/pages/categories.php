@@ -1,98 +1,52 @@
 <?php
 
     if(!empty($_POST)){
-        if(!empty($_POST['brandName']) && $_GET['option'] === 'Add'){
-            $errCount = 0;
-            $brandName = $_POST['brandName'];
-            if(!preg_match('/\w+$/', $brandName)){
-                ++$errCount;
-                $errBrandName = 'Feltet må kun indholde bogstaver og tal.';
-            }
+        if(!empty($_GET['option']) && $_GET['option'] === 'Add'){
+            if(!empty($_POST['categoryName'])){
+                $errCount = 0;
+                $categoryName = $_POST['categoryName'];
 
-            if($errCount === 0){
-                $queryInsertBrand = $conn->newQuery("INSERT INTO hifi_brands (brandName)VALUES(:BRAND)");
-                $queryInsertBrand->bindParam(':BRAND', $brandName, PDO::PARAM_STR);
-                if($queryInsertBrand->execute()){
+                if(!preg_match('/\w+$/', $categoryName)){
+                    ++$errCount;
+                    $errBrandName = 'Feltet må kun indholde bogstaver og tal.';
+                }
+                
+                if($_POST['categoryActive'] === 'on'){
+                    $isActive = 1;
+                }else{
+                    $isActive = 0;
+                }
+
+                if($errCount === 0){
+                    $queryAddCat = $conn->newQuery("INSERT INTO hifi_category (categoryName, categoryActive)VALUES(:NAME, :ACTIVE)");
+                    $queryAddCat->bindParam(':NAME', $categoryName, PDO::PARAM_STR);
+                    $queryAddCat->bindParam(':ACTIVE', $isActive, PDO::PARAM_INT);
+                    if($queryAddCat->execute()){
+                        $success = true;
+                        $successErr = false;
+                        $successTitle = 'Kategori tilføjet';
+                        $successMsg = 'Kategori "' . $categoryName . '" er nu tilføjet til databasen';
+                        unset($categoryName, $isActive);
+                    }
+                }else{
                     $success = true;
-                    $successErr = false;
-                    $successTitle = 'Brand tilføjet';
-                    $successMsg = 'Brand "' . $brandName . '" er nu tilføjet til databasen';
-                    unset($brandName);
+                    $successErr = true;
+                    $successTitle = 'Fejl i indtastning!';
+                    $successMsg = 'Kategori navn må ikke have specialtegn og ';
                 }
             }else{
                 $success = true;
                 $successErr = true;
                 $successTitle = 'Fejl i indtastning!';
-                $successMsg = 'Brand navn skal udfyldes og må ikke have specialtegn.';
+                $successMsg = 'Kategori navn skal udfyldes og må ikke have specialtegn.';
             }
         }
-
-         if(!empty($_POST['brandName']) && $_GET['option'] === 'Edit' && !empty($_GET['id'])){
-            $errCount = 0;
-            $bid = (int)$_GET['id'];
-            $brandName = $_POST['brandName'];
-            if(!preg_match('/\w+$/', $brandName)){
-                ++$errCount;
-                $errBrandName = 'Feltet må kun indholde bogstaver og tal.';
-            }
-
-            if($errCount === 0){
-                $queryUpdateBrand = $conn->newQuery("UPDATE hifi_brands SET brandName = :NAME WHERE bid = :ID");
-                $queryUpdateBrand->bindParam(':NAME', $brandName, PDO::PARAM_STR);
-                $queryUpdateBrand->bindParam(':ID', $bid, PDO::PARAM_INT);
-                if($queryUpdateBrand->execute()){
-                    $success = true;
-                    $successErr = false;
-                    $successTitle = 'Brand Opdateret';
-                    $successMsg = 'Brand "' . $brandName . '" er nu opdateret i databasen';
-                    unset($brandName);
-                }
-            }else{
-                $success = true;
-                $successErr = true;
-                $successTitle = 'Fejl i indtastning!';
-                $successMsg = 'Brand navn skal udfyldes og må ikke have specialtegn.';
-            }
-
-         }
-
-
     }
-         if(!empty($_GET['option']) && $_GET['option'] === 'Delete' && !empty($_GET['id'])){
-            
-            $bid = (int)$_GET['id'];
-            $queryDeleteBrand = $conn->newQuery("DELETE FROM hifi_brands WHERE bid = :BID");
-            $queryDeleteBrand->bindParam(':BID', $bid, PDO::PARAM_INT);
-            if($queryDeleteBrand->execute()){
-                ?>
-            <script type="text/javascript">
-                $(window).load(function(){
-                    $('#modalSuccess').modal('show');
-                });
-            </script>
-            <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Brand slettet</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Brand er nu blevet slettet i databasen!</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="./index.php?p=Brands" class="btn btn-success">OK</a>
-                    </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-            <?php
-            }
-         }
+    
 
-    $queryGetBrands = $conn->newQuery("SELECT bid, brandName FROM hifi_brands ORDER BY brandName ASC");
-    $queryGetBrands->execute();
-    $brands = $queryGetBrands->fetchAll(PDO::FETCH_ASSOC);
+    $queryGetCat = $conn->newQuery("SELECT catId, categoryName, categoryActive FROM hifi_category ORDER BY categoryName ASC");
+    $queryGetCat->execute();
+    $categories = $queryGetCat->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <script>
 var validateBrand = {
@@ -128,30 +82,30 @@ var validateBrand = {
 $(document).ready( () => {
 
     // Validate input when user types and releases the key
-     $("#brandForm").keyup( (objForm) => {
+     $("#categoryForm").keyup( (objForm) => {
         "use strict";
-         if(objForm.target.name === "brandName"){
-            validateBrand.brandname("#brandName");
+         if(objForm.target.name === "categoryName"){
+            validateBrand.brandname("#categoryName");
         }
     });
 
-    $("#brandFormUpdate").keyup( (objForm) => {
+    $("#categorydFormUpdate").keyup( (objForm) => {
         "use strict";
-         if(objForm.target.name === "brandName"){
-            validateBrand.brandname("#brandNameU");
+         if(objForm.target.name === "categoryName"){
+            validateBrand.brandname("#categoryNameU");
         }
     });
-    var bid;
-     $('#modalDeleteBrand').on('show.bs.modal', function (event) {
+    var catid;
+     $('#modalDeletecategory').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); 
-        var brandName = button.data('brandname'); 
-        bid = button.data('bid');
+        var categoryName = button.data('categoryname'); 
+        catid = button.data('catid');
         var modal = $(this);
-        $('#brandDelLbl').html(brandName);
+        $('#categoryDelLbl').html(categoryName);
     });
      
-        $('#btnDeleteBrand').on('click', ()=>{
-            window.location = './index.php?p=Brands&option=Delete&id=' + bid;
+        $('#btnDeleteCategory').on('click', ()=>{
+            window.location = './index.php?p=Categories&option=Delete&id=' + catid;
         });
  
 });
@@ -165,14 +119,14 @@ $(document).ready( () => {
             <div class="col-lg-12">
                 <h1 class="page-header">
                     Kontrolpanel
-                    <small> - Brands</small>
+                    <small> - Kategorier</small>
                 </h1>
                 <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="./index.php?p=Dashboard">Kontrolpanel</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-tags"></i> <a href="./index.php?p=Brands"> Brands </a>
+                                <i class="fa fa-tags"></i> <a href="./index.php?p=Categories">Kategorier</a>
                                 </li>
                         </ol>
             </div>
@@ -194,7 +148,7 @@ $(document).ready( () => {
             </div>
 
         <!-- /.row -->
-        <div class="row hidden">
+        <div class="row">
                   <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">
@@ -210,7 +164,7 @@ $(document).ready( () => {
                           <pre>
                             <?=print_r($_GET) . PHP_EOL?>
                             Defined base : <?=BASE?><br>
-                            <?php print_r($brands)?>
+                            <?php print_r($_POST)?>
                           </pre>
                       </div>
                     </div>
@@ -223,19 +177,23 @@ $(document).ready( () => {
                             <div class="row">
                                 <div class="col-xs-8">
                                     <i class="fa fa-tasks fa-2x"></i>
-                                     - Tilføj brand
+                                     - Tilføj kategori
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
-                           <form action="./index.php?p=Brands&option=Add" method="post" id="brandForm">
+                           <form action="./index.php?p=Categories&option=Add" method="post" id="categoryForm">
                                <div class="input-group has-feedback">
-                                <span class="input-group-addon" id="sizing-addon2">Brand navn</span>
-                                <input type="text" class="form-control" placeholder="Brand navn" name="brandName" id="brandName" value="<?=@$brandName?>" aria-describedby="sizing-addon2" required>
+                                <span class="input-group-addon" id="sizing-addon2">Kategori navn</span>
+                                <input type="text" class="form-control" placeholder="Kategori navn" name="categoryName" id="categoryName" value="<?=@$categoryName?>" aria-describedby="sizing-addon2" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                <span class="errMsg alert-warning"><?=@$errBrandName?></span>
+                                <span class="errMsg alert-warning"><?=@$errCategoryName?></span>
                             </div><br>
-                            <button type="submit" name="btnAdd" class="btn btn-lg btn-success">Tilføj</button>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon3">Aktiveret</span>
+                                <input type="checkbox" name="categoryActive" aria-describedby="sizing-addon3">
+                            </div><br>
+                            <button type="submit" class="btn btn-lg btn-success">Tilføj</button>
                            </form>
                       </div>
                     </div>
@@ -243,39 +201,44 @@ $(document).ready( () => {
                 </div>
 
                 <div class="row">
-                    <h2>Brands</h2>
+                    <h2>Kategorier</h2>
                     
                     <table class="table table-striped table-hover">
                         <thead>    
-                            <th>Brand navn</th>
+                            <th>Kategori navn</th>
+                            <th>Aktivt</th>
                             <th>Ret</th>
                             <th>Slet</th>                    
                         </thead>
                         <tbody>
                             <?php
-                                foreach($brands as $brand){
+                                foreach($categories as $category){
                             ?>
                             <tr>
                                 <td>
-                                    <?=$brand['brandName']?>
-                                    <div class="collapse" id="brandCollapseId<?=$brand['bid']?>">
+                                    <?=utf8_encode($category['categoryName'])?>
+                                    <div class="collapse" id="categoryCollapseId<?=$category['catId']?>">
                                         <div class="well">
                                             <script>
                                                 $(document).ready( () => {
-                                                 $("#brandFormUpdate<?=$brand['bid']?>").keyup( (objForm) => {
+                                                 $("#categoryFormUpdate<?=$category['catId']?>").keyup( (objForm) => {
                                                     "use strict";
-                                                    if(objForm.target.name === "brandName"){
-                                                        validateBrand.brandname("#brandNameU<?=$brand['bid']?>");
+                                                    if(objForm.target.name === "categoryName"){
+                                                        validateBrand.brandname("#categoryNameU<?=$category['catId']?>");
                                                     }
                                                 });
                                                 });
                                             </script>
-                                           <form action="./index.php?p=Brands&option=Edit&id=<?=$brand['bid']?>" method="post" id="brandFormUpdate<?=$brand['bid']?>">
+                                           <form action="./index.php?p=Categories&option=Edit&id=<?=$category['catId']?>" method="post" id="categoryFormUpdate<?=$category['catId']?>">
                                             <div class="input-group has-feedback">
-                                                <span class="input-group-addon" id="sizing-addon2">Brand navn</span>
-                                                <input type="text" class="form-control" placeholder="Brand navn" name="brandName" id="brandNameU<?=$brand['bid']?>" value="<?=$brand['brandName']?>" aria-describedby="sizing-addon2" required>
+                                                <span class="input-group-addon" id="sizing-addon2">Kategori navn</span>
+                                                <input type="text" class="form-control" placeholder="Kategori navn" name="categoryName" id="categoryNameU<?=$category['catId']?>" value="<?=utf8_encode($category['categoryName'])?>" aria-describedby="sizing-addon2" required>
                                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                <span class="errMsg alert-warning"><?=@$errBrandName?></span>
+                                                <span class="errMsg alert-warning"><?=@$errCategoryName?></span>
+                                            </div><br>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="sizing-addon3">Aktiveret</span>
+                                                <input type="checkbox" name="categoryActive"  <?=$category['categoryActive'] == 1 ? 'checked' : ''?> aria-describedby="sizing-addon3">
                                             </div><br>
                                             <button type="submit" name="btnEdit" class="btn btn-lg btn-info">Ret</button>
                                         </form>
@@ -283,13 +246,16 @@ $(document).ready( () => {
                                     </div>
                                 </td>
                                 <td>
+                                    <?=$category['categoryActive'] == 1 ? 'Aktiveret' : 'Deaktiveret'?>
+                                </td>
+                                <td>
                                     
-                                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#brandCollapseId<?=$brand['bid']?>" aria-expanded="false" aria-controls="brandCollapseId<?=$brand['bid']?>">
+                                    <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#categoryCollapseId<?=$category['catId']?>" aria-expanded="false" aria-controls="categoryCollapseId<?=$category['catId']?>">
                                         <i class="fa fa-pencil"></i>
                                     </button>
                                 </td>
                                 <td>
-                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteBrand" data-brandName="<?=$brand['brandName']?>" data-bid="<?=$brand['bid']?>"><i class="fa fa-remove"></i></button>
+                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteCategory" data-categoryName="<?=$category['catId']?>" data-catId="<?=$category['catId']?>"><i class="fa fa-remove"></i></button>
                                 </td>
                             </tr>
 
@@ -301,7 +267,7 @@ $(document).ready( () => {
                 </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="modalDeleteBrand" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
+                    <div class="modal fade" id="modalDeleteCategory" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -309,11 +275,11 @@ $(document).ready( () => {
                             <h4 class="modal-title" id="ModalLabel">Slet mærke?</h4>
                         </div>
                         <div class="modal-body">
-                            <p>Er du sikker på at, du vil slette mærket "<span id="brandDelLbl"></span>"?</p>
+                            <p>Er du sikker på at, du vil slette kategorien "<span id="catDelLbl"></span>"?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Anullér</button>
-                            <button type="button" id="btnDeleteBrand" class="btn btn-danger">Slet</button>
+                            <button type="button" id="btnDeleteCategory" class="btn btn-danger">Slet</button>
                         </div>
                         </div>
                     </div>
