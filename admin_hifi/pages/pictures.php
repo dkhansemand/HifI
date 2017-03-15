@@ -82,7 +82,7 @@
         </div>
         <!-- /.row -->
 
-         <div class="row">
+         <div class="row hidden">
                   <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">
@@ -107,7 +107,7 @@
                 <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'Delete' ? 'hidden': ''?>">
                   <div class="col-lg-4">
                           
-                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddPicture"><i class="fa fa-plus"></i> Tilføj billede </button>
+                          <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalAddPicture"><i class="fa fa-plus"></i> Tilføj billede </button>
                     </div>
                     <div class="modal fade" id="modalAddPicture" tabindex="-1" role="dialog" aria-labelledby="ModalAddPicture">
                             <div class="modal-dialog" role="document">
