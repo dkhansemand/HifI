@@ -314,7 +314,7 @@
                 <!-- /.row -->
                  <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'View' || $getParamOpt === 'Delete' ? 'hidden': ''?>">
                   <div class="col-lg-4">
-                          <a href="./index.php?p=Products&option=Add" class="btn btn-success"><i class="fa fa-plus"></i>Tilføj Produkt</a>
+                          <a href="./index.php?p=Products&option=Add" class="btn btn-lg btn-success"><i class="fa fa-plus"></i>Tilføj Produkt</a>
                     </div>
                   </div>
                 
@@ -326,7 +326,7 @@
                 <div class="row <?=$getParamOpt === 'Add' || $getParamOpt === 'View' || $getParamOpt === 'Delete' ? 'hidden': ''?>">
                   <div class="col-lg-12">
                         <h2>Produkter</h2>
-                        <table class="table table-bordered table-hover">
+                        <table class="table table-responsive table-bordered table-hover">
                             <thead>
                                 <th>Titel</th>
                                 <th>Beskrivelse</th>
