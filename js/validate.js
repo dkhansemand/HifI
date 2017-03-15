@@ -4,7 +4,7 @@ $(document).ready(() => {
             "use strict";
 
             var nameVal = $(inputField).val(),
-                nameRegex = /^[a-zA-ZÆØÅæøå]+$/;
+                nameRegex = /^[a-zA-ZÆØÅæøå ]+$/;
             
             if(nameVal.length !== 0 && nameRegex.test(nameVal)){
                 $(inputField).parent('div')

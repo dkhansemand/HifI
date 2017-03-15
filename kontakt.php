@@ -12,7 +12,7 @@
         if(empty($name)){
             $errName = 'Navn skal udfyldes';
             ++$errCount;
-        }elseif(!preg_match('/^[a-zA-ZÆØÅæøå]+$/', $name) ) { 
+        }elseif(!preg_match('/^[a-zA-ZÆØÅæøå ]+$/', $name) ) { 
             $errName = "Feltet må ikke indeholde tal eller specialtegn.";
             ++$errCount;
         }
