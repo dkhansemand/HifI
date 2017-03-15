@@ -1,4 +1,10 @@
 <?php
+    session_start();
+
+    if(!isset($_SESSION["isLoggedIn"])){
+        header('Location: ./login.php');
+        exit();
+    }
 
 if(!empty($_GET['p'])){
     $page = (string)$_GET['p'];

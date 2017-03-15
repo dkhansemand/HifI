@@ -68,10 +68,10 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li>
-                    <a href="./index.php?p=Profile"><i class="fa fa-user"></i> <?=@$username?></a>
+                    <a href="./index.php?p=Profile"><i class="fa fa-user"></i> <?=$_SESSION['username']?></a>
                 </li>
                 <li>
-                    <a href="./index.php?p=Logout"><i class="fa fa-power-off"></i> Log ud</a>
+                    <a href="./logout.php"><i class="fa fa-power-off"></i> Log ud</a>
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
