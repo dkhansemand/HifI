@@ -77,6 +77,38 @@
             }
          }
     }
+
+    if(!empty($_GET['option']) && $_GET['option'] === 'Delete' && !empty($_GET['id'])){
+            
+            $catId = (int)$_GET['id'];
+            $queryDeleteCat = $conn->newQuery("DELETE FROM hifi_category WHERE catId = :ID");
+            $queryDeleteCat->bindParam(':ID', $catId, PDO::PARAM_INT);
+            if($queryDeleteCat->execute()){
+                ?>
+            <script type="text/javascript">
+                $(window).load(function(){
+                    $('#modalSuccess').modal('show');
+                });
+            </script>
+            <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Kategori slettet</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Kategori er nu blevet slettet i databasen!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="./index.php?p=Categories" class="btn btn-success">OK</a>
+                    </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <?php
+            }
+         }
     
 
     $queryGetCat = $conn->newQuery("SELECT catId, categoryName, categoryActive FROM hifi_category ORDER BY categoryName ASC");
@@ -131,12 +163,12 @@ $(document).ready( () => {
         }
     });
     var catid;
-     $('#modalDeletecategory').on('show.bs.modal', function (event) {
+     $('#modalDeleteCategory').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); 
         var categoryName = button.data('categoryname'); 
         catid = button.data('catid');
         var modal = $(this);
-        $('#categoryDelLbl').html(categoryName);
+        $('#catDelLbl').html(categoryName);
     });
      
         $('#btnDeleteCategory').on('click', ()=>{
@@ -290,7 +322,7 @@ $(document).ready( () => {
                                     </button>
                                 </td>
                                 <td>
-                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteCategory" data-categoryName="<?=$category['catId']?>" data-catId="<?=$category['catId']?>"><i class="fa fa-remove"></i></button>
+                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteCategory" data-categoryName="<?=$category['categoryName']?>" data-catId="<?=$category['catId']?>"><i class="fa fa-remove"></i></button>
                                 </td>
                             </tr>
 
