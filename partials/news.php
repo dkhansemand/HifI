@@ -18,11 +18,11 @@ if($queryNews->execute()){
         <div class="thumbnail">
             <img src="<?=$image?>" alt="<?=$news['pictureTitle']?>">
             <div class="caption">
-            <h4><?=$news['newsTitle']?></h4>
-            <p class="text-muted"><?=$news['newsDate']?></p>
-            <p><?=$news['newsContent'];?></p>
-            <p><a href="#id=<?=$news['nid']?>" class="btn btn-default btn-xs" role="button">Læs mere</a></p>
-        </div>
+                <h4><?=$news['newsTitle']?></h4>
+                <p class="text-muted"><?=$news['newsDate']?></p>
+                <p><?=$news['newsContent'];?></p>
+                <p><a href="#id=<?=$news['nid']?>" class="btn btn-default btn-xs" role="button">Læs mere</a></p>
+            </div>
         </div>
     </div>
 <?php

@@ -6,6 +6,7 @@
         if(!empty($_POST['username']) && !empty($_POST['password'])){
             ## Import dbconnetor class
             require_once '../lib/class.mysql.php';
+            
             ## Create global connection variable
             $conn = new dbconnector();
 
