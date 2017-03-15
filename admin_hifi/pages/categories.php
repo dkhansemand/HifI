@@ -193,7 +193,7 @@ $(document).ready( () => {
                                 <i class="fa fa-dashboard"></i>  <a href="./index.php?p=Dashboard">Kontrolpanel</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-tags"></i> <a href="./index.php?p=Categories">Kategorier</a>
+                                <i class="fa fa-list-alt"></i> <a href="./index.php?p=Categories">Kategorier</a>
                                 </li>
                         </ol>
             </div>
@@ -215,7 +215,7 @@ $(document).ready( () => {
             </div>
 
         <!-- /.row -->
-        <div class="row">
+        <div class="row hidden">
                   <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">
