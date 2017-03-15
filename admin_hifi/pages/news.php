@@ -4,7 +4,7 @@
     if(!empty($_GET)){
         if(!empty($_GET['option'])){
             $getParamOpt = $_GET['option'];
-            if($getParamOpt === 'Add'){
+            if($getParamOpt === 'Add' || $getParamOpt === 'Edit'){
                 
                 ## Retrive data for pictures
                 $queryPic = $conn->newQuery("SELECT pictureid, picturefilename, pictureTitle FROM hifi_pictures WHERE pictureIsProduct = 0;");    
@@ -12,10 +12,55 @@
                 if($queryPic->execute()){
                     $infoArr['Pic'] = $queryPic->fetchAll(PDO::FETCH_ASSOC);
                 }
-
             }
+
+             if($getParamOpt === 'Edit' && !empty($_GET['id'])){
+                $nid = (int)$_GET['id'];
+                $queryNews = $conn->newQuery("SELECT nid, newsTitle, newsContent, newsPictureId FROM hifi_news WHERE nid = :ID");
+                $queryNews->bindParam(':ID', $nid, PDO::PARAM_INT);
+                if($queryNews->execute()){
+                    $newsEdit = $queryNews->fetch(PDO::FETCH_ASSOC);
+
+                }
+             }
+
         }
     }
+    if($getParamOpt === 'Delete' && !empty($_GET['id'])){
+            $nid = (int)$_GET['id'];
+            
+            
+            $queryDelete = $conn->newQuery("DELETE FROM hifi_news WHERE nid = :ID;");
+            $queryDelete->bindParam(':ID', $nid, PDO::PARAM_INT);
+
+            if($queryDelete->execute()){
+               
+            ?>
+            <script type="text/javascript">
+                $(window).load(function(){
+                    $('#newsDelete').modal('show');
+                });
+            </script>
+            <div class="modal fade" id="newsDelete" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Nyhed slettet</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Nyheden er nu blevet slettet i databasen!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="./index.php?p=News" class="btn btn-success">OK</a>
+                    </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <?php
+            
+            }
+        }
 
     ## Check if post have data
     if(!empty($_POST)){
@@ -44,8 +89,8 @@
                     if($queryInsert->execute()){
                         $success = true;
                         $successErr = false;
-                        $successTitle = 'Produkt tilføjet';
-                        $successMsg = 'Produktet "' . $newstitle . '" er nu tilføjet til databasen';
+                        $successTitle = 'Nyhed tilføjet';
+                        $successMsg = 'Nyheden "' . $newstitle . '" er nu tilføjet til databasen';
                         unset($newstitle, $newscontent);
                     } 
                 }else{
@@ -62,6 +107,51 @@
                 $successMsg = 'Overskrift og indhold, skal udfyldes og være i korrekt format.'; 
             }
          }
+
+        if($getParamOpt === 'Edit'){
+            if(!empty($_POST['newstitle']) && !empty($_POST['newscontent'])){
+                $nid = (int)$_GET['id'];
+                $errCount = 0;
+                $newstitle = $_POST['newstitle'];
+                $newscontent = $_POST['newscontent'];
+
+                if(!preg_match('/^[a-zA-ZÆØÅæøå0-9\s.]+$/', $newstitle)){
+                    ++$errCount;
+                    $errNewstitle = 'Feltet må kun indholde bogstaver og tal.';
+                }
+
+                if(!preg_match('/\w+$/', $newscontent)){
+                    ++$errCount;
+                    $errNewscontent = 'Feltet må kun indholde bogstaver og tal.';
+                }
+
+                if($errCount === 0){
+                    $queryUpdate = $conn->newQuery("UPDATE hifi_news SET newsTItle = :TITLE, newsContent = :CONTENT, newsPictureId = :PICTUREID WHERE nid = :NID");
+                    $queryUpdate->bindParam(':TITLE', $newstitle, PDO::PARAM_STR);   
+                    $queryUpdate->bindParam(':CONTENT', $newscontent, PDO::PARAM_STR);      
+                    $queryUpdate->bindParam(':PICTUREID', $_POST['newsPicture'], PDO::PARAM_INT);       
+                    $queryUpdate->bindParam(':NID', $nid, PDO::PARAM_INT);
+                    if($queryUpdate->execute()){
+                        $success = true;
+                        $successErr = false;
+                        $successTitle = 'Nyhed redigéret';
+                        $successMsg = 'Nyhed "' . $newstitle . '" er nu redigéret i databasen';
+                        
+                    } 
+                }else{
+                    $success = true;
+                    $successErr = true;
+                    $successTitle = 'Fejl i indtastning!';
+                    $successMsg = 'Overskrift og indhold, skal udfyldes og være i korrekt format.'; 
+                }      
+
+            }else{
+                $success = true;
+                $successErr = true;
+                $successTitle = 'Fejl i indtastning!';
+                $successMsg = 'Overskrift og indhold, skal udfyldes og være i korrekt format.'; 
+            }
+        }
     }
 
 
@@ -78,7 +168,7 @@
         $('#newsDelLbl').html(newsHeading);
     });
      
-        $('#btnDeleteBrand').on('click', ()=>{
+        $('#btnDeleteNews').on('click', ()=>{
             window.location = './index.php?p=News&option=Delete&id=' + nid;
         });
      });
@@ -110,6 +200,13 @@
                                 </li>
                             <?php
                             }
+                            if(@$getParamOpt === 'Edit'){
+                            ?>
+                            <li class="active">
+                                <a href="./index.php?p=News&option=Edit&id=<?=$nid?>">Redigér nyhed</a>
+                            </li>
+                            <?php
+                            }
                             ?>
                         </ol>
                     </div>
@@ -130,7 +227,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row hidden">
                   <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">
@@ -146,7 +243,7 @@
                           <pre>
                             <?=print_r($_GET)?><br> Defined base : <?=BASE?><br>
                             <?=print_r($_POST, true)?>
-                            <?=print_r(@$news, true)?>
+                            <?=print_r(@$newsEdit, true)?>
                           </pre>
                       </div>
                     </div>
@@ -229,7 +326,7 @@
 
 
                      <?php
-                    if(@$getParamOpt === 'Add'){
+                    if(@$getParamOpt === 'Add' || @$getParamOpt === 'Edit'){
                 ?>
                 <script src="./js/validateNews.js"></script>
                 <div class="row">
@@ -239,12 +336,23 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <i class="fa fa-plus fa-2x"></i>
-                                      Tilføj nyhed
+                                    <?php
+                                        if($getParamOpt === 'Add'){
+                                            echo 'Tilføj nyhed';
+                                            $action = './index.php?p=News&option=Add';
+                                            $btn = 'Tilføj';
+                                        }elseif($getParamOpt === 'Edit'){
+                                            echo 'Redigér nyhed';
+                                            $action = './index.php?p=News&option=Edit&id='.$nid;
+                                            $btn = 'Redigér';
+                                        }
+                                    ?>
+                                      
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
-                          <form method="post" action="" id="newsAddForm">
+                          <form method="post" action="<?=$action?>" id="newsAddForm">
     
                             <div class="input-group col-lg-6 has-feedback">
                                 <span class="input-group-addon" id="sizing-addon2">Overskrift</span>
@@ -264,13 +372,13 @@
                                         <?php
                                         foreach($infoArr['Pic'] as $Picture){
                                     ?>
-                                        <option value="<?=$Picture['pictureid']?>"><?=utf8_encode($Picture['picturefilename'])?></option>
+                                        <option value="<?=$Picture['pictureid']?>" <?=@$newsEdit['newsPictureId'] === $Picture['pictureid'] ? 'selected' : ''?>><?=utf8_encode($Picture['picturefilename'])?></option>
 
                                         <?php
                                         }
                                         ?>
                                 </select>
-                                
+                               
                                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddPicture"><i class="fa fa-plus"></i> Tilføj billede </button>
                                 <br>
                                 <script>
@@ -286,7 +394,8 @@
                                 <img id="showPic" height="250" width="300" src="">
                                 <span id="showPic"></span>
                             </div>
-                            <button type="submit" name="btnAdd" class="btn btn-lg btn-success">Tilføj</button>
+
+                            <button type="submit" name="btnAdd" class="btn btn-lg btn-success"><?=$btn?> </button>
                         </form>
                          <div class="modal fade" id="modalAddPicture" tabindex="-1" role="dialog" aria-labelledby="ModalAddPicture">
                                     <div class="modal-dialog" role="document">
