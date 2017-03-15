@@ -1,13 +1,13 @@
 $(document).ready( () => {
      var pid;
-    $('#modalDelete').on('show.bs.modal', function (event) {
+    $('#modalDeleteProd').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); 
         var productName = button.data('productname'); 
         pid = button.data('pid');
         var modal = $(this);
         modal.find('#productName').text(productName);
     });
-        $('#btnDelete').on('click', ()=>{
+        $('#btnDeleteProd').on('click', ()=>{
             window.location = './index.php?p=Products&option=Delete&id='+pid;
         });
 

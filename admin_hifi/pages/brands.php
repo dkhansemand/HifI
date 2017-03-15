@@ -55,7 +55,40 @@
             }
 
          }
+
+
     }
+         if(!empty($_GET['option']) && $_GET['option'] === 'Delete' && !empty($_GET['id'])){
+            
+            $bid = (int)$_GET['id'];
+            $queryDeleteBrand = $conn->newQuery("DELETE FROM hifi_brands WHERE bid = :BID");
+            $queryDeleteBrand->bindParam(':BID', $bid, PDO::PARAM_INT);
+            if($queryDeleteBrand->execute()){
+                ?>
+            <script type="text/javascript">
+                $(window).load(function(){
+                    $('#modalSuccess').modal('show');
+                });
+            </script>
+            <div class="modal fade" id="modalSuccess" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Brand slettet</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Brand er nu blevet slettet i databasen!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="./index.php?p=Brands" class="btn btn-success">OK</a>
+                    </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <?php
+            }
+         }
 
     $queryGetBrands = $conn->newQuery("SELECT bid, brandName FROM hifi_brands ORDER BY brandName ASC");
     $queryGetBrands->execute();
@@ -108,6 +141,18 @@ $(document).ready( () => {
             validateBrand.brandname("#brandNameU");
         }
     });
+    var bid;
+     $('#modalDeleteBrand').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); 
+        var brandName = button.data('brandname'); 
+        bid = button.data('bid');
+        var modal = $(this);
+        $('#brandDelLbl').html(brandName);
+    });
+     
+        $('#btnDeleteBrand').on('click', ()=>{
+            window.location = './index.php?p=Brands&option=Delete&id=' + bid;
+        });
  
 });
 </script>
@@ -119,8 +164,8 @@ $(document).ready( () => {
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Blank Page
-                    <small>Subheading</small>
+                    Kontrolpanel
+                    <small> - Brand</small>
                 </h1>
                 <ol class="breadcrumb">
                             <li>
@@ -149,7 +194,7 @@ $(document).ready( () => {
             </div>
 
         <!-- /.row -->
-        <div class="row">
+        <div class="row hidden">
                   <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">
@@ -185,8 +230,8 @@ $(document).ready( () => {
                         <div class="panel-body">
                            <form action="./index.php?p=Brands&option=Add" method="post" id="brandForm">
                                <div class="input-group has-feedback">
-                                <span class="input-group-addon" id="sizing-addon2">Mærke navn</span>
-                                <input type="text" class="form-control" placeholder="Mærke navn" name="brandName" id="brandName" value="<?=@$brandName?>" aria-describedby="sizing-addon2" required>
+                                <span class="input-group-addon" id="sizing-addon2">Brand navn</span>
+                                <input type="text" class="form-control" placeholder="Brand navn" name="brandName" id="brandName" value="<?=@$brandName?>" aria-describedby="sizing-addon2" required>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <span class="errMsg alert-warning"><?=@$errBrandName?></span>
                             </div><br>
@@ -198,11 +243,11 @@ $(document).ready( () => {
                 </div>
 
                 <div class="row">
-                    <h2>Mærker</h2>
+                    <h2>Brands</h2>
                     
                     <table class="table table-striped table-hover">
                         <thead>    
-                            <th>Mærke navn</th>
+                            <th>Brand navn</th>
                             <th>Ret</th>
                             <th>Slet</th>                    
                         </thead>
@@ -227,8 +272,8 @@ $(document).ready( () => {
                                             </script>
                                            <form action="./index.php?p=Brands&option=Edit&id=<?=$brand['bid']?>" method="post" id="brandFormUpdate<?=$brand['bid']?>">
                                             <div class="input-group has-feedback">
-                                                <span class="input-group-addon" id="sizing-addon2">Mærke navn</span>
-                                                <input type="text" class="form-control" placeholder="Mærke navn" name="brandName" id="brandNameU<?=$brand['bid']?>" value="<?=$brand['brandName']?>" aria-describedby="sizing-addon2" required>
+                                                <span class="input-group-addon" id="sizing-addon2">Brand navn</span>
+                                                <input type="text" class="form-control" placeholder="Brand navn" name="brandName" id="brandNameU<?=$brand['bid']?>" value="<?=$brand['brandName']?>" aria-describedby="sizing-addon2" required>
                                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                                 <span class="errMsg alert-warning"><?=@$errBrandName?></span>
                                             </div><br>
@@ -243,7 +288,9 @@ $(document).ready( () => {
                                         <i class="fa fa-pencil"></i>
                                     </button>
                                 </td>
-                                <td><a href="./index.php?p=Brands&option=Delete&id=<?=$brand['bid']?>" class="btn btn-danger"><i class="fa fa-remove"></i></a></td>
+                                <td>
+                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteBrand" data-brandName="<?=$brand['brandName']?>" data-bid="<?=$brand['bid']?>"><i class="fa fa-remove"></i></button>
+                                </td>
                             </tr>
 
                             <?php
@@ -252,6 +299,25 @@ $(document).ready( () => {
                         </tbody>
                     </table>
                 </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalDeleteBrand" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="ModalLabel">Slet mærke?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Er du sikker på at, du vil slette mærket "<span id="brandDelLbl"></span>"?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Anullér</button>
+                            <button type="button" id="btnDeleteBrand" class="btn btn-danger">Slet</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
 
 
     </div>

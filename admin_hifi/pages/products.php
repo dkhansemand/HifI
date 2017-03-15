@@ -290,7 +290,7 @@
                 </div>
                 
 
-                <div class="row">
+                <div class="row hidden">
                   <div class="col-lg-10">
                     <div class="panel panel-red">
                         <div class="panel-heading">
@@ -350,7 +350,7 @@
                                             <td><img src="<?=IMGBASE.'/prod_image/'.$products[$productCount]['pictureFilename']?>" alt="<?=$products[$productCount]['pictureTitle']?>" height="85" width="auto"></td>
                                             <td>
                                                 <a href="./index.php?p=Products&option=View&id=<?=$products[$productCount]['pid']?>" class="btn btn-info">Ret</a>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete" data-productName="<?=$products[$productCount]['productTitle']?>" data-pid="<?=$products[$productCount]['pid']?>">Slet</button>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteProd" data-productName="<?=$products[$productCount]['productTitle']?>" data-pid="<?=$products[$productCount]['pid']?>">Slet</button>
                                                 
                                             </td>
                                         </tr>
@@ -362,7 +362,7 @@
                         </table>
                         <!-- Modal -->
                         
-                        <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="ModalDeleteLbl">
+                        <div class="modal fade" id="modalDeleteProd" tabindex="-1" role="dialog" aria-labelledby="ModalDeleteLbl">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                 <div class="modal-header">
@@ -374,7 +374,7 @@
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Anullér</button>
-                                    <button type="button" id="btnDelete" class="btn btn-danger">Slet produkt</button>
+                                    <button type="button" id="btnDeleteProd" class="btn btn-danger">Slet produkt</button>
                                     
                                 </div>
                                 </div>
