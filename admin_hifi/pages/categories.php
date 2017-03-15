@@ -10,7 +10,7 @@
                     ++$errCount;
                     $errBrandName = 'Feltet må kun indholde bogstaver og tal.';
                 }
-                
+
                 if($_POST['categoryActive'] === 'on'){
                     $isActive = 1;
                 }else{
@@ -41,6 +41,41 @@
                 $successMsg = 'Kategori navn skal udfyldes og må ikke have specialtegn.';
             }
         }
+         if(!empty($_POST['categoryName']) && $_GET['option'] === 'Edit' && !empty($_GET['id'])){
+            $errCount = 0;
+            $catId = (int)$_GET['id'];
+            $categoryName = $_POST['categoryName'];
+
+            if(!preg_match('/\w+$/', $categoryName)){
+                ++$errCount;
+                $errCategoryName = 'Feltet må kun indholde bogstaver og tal.';
+            }
+
+            if($_POST['categoryActive'] === 'on'){
+                $isActive = 1;
+            }else{
+                $isActive = 0;
+            }
+
+            if($errCount === 0){
+                $queryUpdateCategory = $conn->newQuery("UPDATE hifi_category SET categoryName = :NAME, categoryActive = :ACTIVE WHERE catId = :ID");
+                $queryUpdateCategory->bindParam(':NAME', $categoryName, PDO::PARAM_STR);
+                $queryUpdateCategory->bindParam(':ACTIVE', $isActive, PDO::PARAM_INT);
+                $queryUpdateCategory->bindParam(':ID', $catId, PDO::PARAM_INT);
+                if($queryUpdateCategory->execute()){
+                    $success = true;
+                    $successErr = false;
+                    $successTitle = 'Kategori Opdateret';
+                    $successMsg = 'Kategori "' . $categoryName . '" er nu opdateret i databasen';
+                    unset($categoryName, $isActive);
+                }
+            }else{
+                $success = true;
+                $successErr = true;
+                $successTitle = 'Fejl i indtastning!';
+                $successMsg = 'Kategori navn skal udfyldes og må ikke have specialtegn.';
+            }
+         }
     }
     
 
