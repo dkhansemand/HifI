@@ -1,5 +1,35 @@
 <?php
 
+    if(!empty($_POST)){
+        if(!empty($_POST['address']) && 
+            !empty($_POST['zipcode']) && 
+            !empty($_POST['city']) && 
+            !empty($_POST['phone']) &&
+            !empty($_POST['fax']) &&
+            !empty($_POST['email'])){
+
+
+
+        }else{
+            $productUpdate = $_POST;
+            $success = true;
+            $successErr = false;
+            $successTitle = 'Fejl i indtastning';
+            $successMsg = 'Alle felter skal udfyldes, og være i korrekt format';
+        }
+    }
+
+
+    $querySesstings = $conn->newQuery("SELECT shopTitle, ShopDescription, shopAdrStreet, shopAdrZip, shopAdrCity, shopTelephone, shopFax, shopEmail FROM hifi_shopsettings");
+    if($querySesstings->execute()){
+        $settings = $querySesstings->fetch(PDO::FETCH_ASSOC);
+        $shopAddr = $settings['shopAdrStreet'];
+        $shopZipcode = $settings['shopAdrZip'];
+        $shopCity = $settings['shopAdrCity'];
+        $shopPhone = $settings['shopTelephone'];
+        $shopFax = $settings['shopFax'];
+        $shopEmail = $settings['shopEmail'];
+    }
 ?>
 
 <div id="page-wrapper">
@@ -22,6 +52,23 @@
                             </li>
                             
                         </ol>
+                    </div>
+                </div>
+
+
+                <!-- /.row -->
+                <div class="row <?=@$success ? '' : 'hidden'?>">
+                    <div class="col-lg-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <?=@$successTitle?>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert <?=@$successErr ? 'alert-danger':'alert-success'?>" role="alert">
+                                    <?=@$successMsg?>
+                                </div>
+                            </div>
+                        </div>  
                     </div>
                 </div>
                 <!-- /.row -->
@@ -50,7 +97,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="panel panel-info">
+                    <div class="panel panel-info col-lg-8">
                         <div class="panel-heading">
                              Kontakt oplysninger
                         </div>
@@ -62,7 +109,7 @@
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                     <span class="errMsg alert-warning"><?=@$errAddr?></span>
                                 </div><br>
-                                <div class="input-group col-lg-2 has-feedback">
+                                <div class="input-group col-lg-3 has-feedback">
                                     <span class="input-group-addon" id="sizing-addon2">Post nr.</span>
                                     <input type="text" pattern="[0-9]{4}" class="form-control" placeholder="post nr." name="zipcode" id="zipcode" value="<?=@$shopZipcode?>" aria-describedby="sizing-addon2" required>
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -93,7 +140,7 @@
                                     <span class="errMsg alert-warning"><?=@$errEmail?></span>
                                 </div><br>
                             
-                                <button type="submit" name="btnAdd" class="btn btn-lg btn-success">Ret oplysninger</button>
+                                <button type="submit" name="btnAdd" class="btn btn-lg btn-success pull-right">Ret oplysninger</button>
                         </form>
                         </div>
                     </div>
