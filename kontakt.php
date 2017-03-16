@@ -2,6 +2,18 @@
     ##Include header (With navigation)
     include './partials/header.php';
 
+    $querySettings = $conn->newQuery("SELECT shopTitle, shopAdrStreet, shopAdrZip, shopAdrCity, shopTelephone, shopFax, shopEmail FROM hifi_shopsettings");
+    if($querySettings->execute()){
+            $settings = $querySettings->fetch(PDO::FETCH_ASSOC);
+            $shopTitle = $settings['shopTitle'];
+            $shopAddr = $settings['shopAdrStreet'];
+            $shopZipcode = $settings['shopAdrZip'];
+            $shopCity = $settings['shopAdrCity'];
+            $shopPhone = $settings['shopTelephone'];
+            $shopFax = $settings['shopFax'];
+            $shopEmail = $settings['shopEmail'];
+    }
+
     if(!empty($_POST)){
         $errCount = 0;
         $name = $_POST['name'];
@@ -122,14 +134,14 @@
                     <form>
                     <legend><span class="glyphicon glyphicon-globe"></span> Vores adresse</legend>
                     <address>
-                        <strong>Hi-fi Netbutikken</strong><br>
-                        Byvej 25<br>
-                        4000 bykøbing<br>
-                        <abbr title="Telefon">Tlf:</abbr> 45 45 45 45<br>
-                        <abbr title="Fax">Fax:</abbr> 45 45 45 45<br>
+                        <strong><?=$shopTitle?></strong><br>
+                        <?=$shopAddr?><br>
+                        <?=$shopZipcode?> <?=$shopCity?><br>
+                        <abbr title="Telefon">Tlf:</abbr> <?=$shopPhone?><br>
+                        <abbr title="Fax">Fax:</abbr> <?=$shopFax?><br>
                     </address>
                     <address>
-                        post@hifi-netbutikken.dk
+                       <?=$shopEmail?>
                     </address>
                     </form>
                 </div>

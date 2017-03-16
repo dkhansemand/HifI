@@ -8,14 +8,72 @@
             !empty($_POST['fax']) &&
             !empty($_POST['email'])){
 
+            $errCount = 0;
+            if(!preg_match('/[a-zæøåA-ZÆØÅ0-9\s]+$/', $_POST['address'])){
+                ++$errCount;
+                $errAddr = 'Feltet må kun indholde bogstaver og tal.';
+            }
 
+            if(!preg_match('/[0-9]{4}+$/', $_POST['zipcode'])){
+                ++$errCount;
+                $errZipcode = 'Feltet må kun indholde tal.';
+            }
+
+            if(!preg_match('/[a-zA-ZæøåÆØÅ\s]+$/', $_POST['city'])){
+                ++$errCount;
+                $errCity = 'Feltet må kun indholde tal.';
+            }
+
+            if(!preg_match('/[+0-9\s]{8,15}+$/', $_POST['phone'])){
+                ++$errCount;
+                $errPhone = 'Feltet må kun indholde tal og evt. landekode (+45).';
+            }
+
+            if(!preg_match('/[+0-9\s]{8,15}+$/', $_POST['fax'])){
+                ++$errCount;
+                $errFax = 'Feltet må kun indholde tal og evt. landekode (+45).';
+            }
+
+            if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+                ++$errCount;
+                $errEmail = 'E-mail er ikke i korrekt format.';
+            }
+
+            if($errCount === 0){
+                $queryUpdate = $conn->newQuery("UPDATE hifi_shopsettings 
+                                                SET shopAdrStreet = :ADDR,
+                                                    shopAdrZip = :ZIP,
+                                                    shopAdrCity = :CITY,
+                                                    shopTelephone = :TEL,
+                                                    shopFax = :FAX,
+                                                    shopEmail = :EMAIL
+                                                WHERE setId = 1");
+                $queryUpdate->bindParam(':ADDR', $_POST['address'], PDO::PARAM_STR);
+                $queryUpdate->bindParam(':ZIP', $_POST['zipcode'], PDO::PARAM_INT);
+                $queryUpdate->bindParam(':CITY', $_POST['city'], PDO::PARAM_STR);
+                $queryUpdate->bindParam(':TEL', $_POST['phone'], PDO::PARAM_STR);
+                $queryUpdate->bindParam(':FAX', $_POST['fax'], PDO::PARAM_STR);
+                $queryUpdate->bindParam(':EMAIL', $_POST['email'], PDO::PARAM_STR);
+                if($queryUpdate->execute()){
+                    $productUpdate = $_POST;
+                    $success = true;
+                    $successErr = false;
+                    $successTitle = 'Oplysniger opdateret!';
+                    $successMsg = 'Oplysningerne er nu opdateret i databasen.';
+                }                        
+
+            }else{
+                $success = true;
+                $successErr = true;
+                $successTitle = 'Fejl i indtastning';
+                $successMsg = 'Alle felter skal udfyldes, og være i korrekt format.';
+            }
 
         }else{
-            $productUpdate = $_POST;
             $success = true;
-            $successErr = false;
+            $successErr = true;
             $successTitle = 'Fejl i indtastning';
-            $successMsg = 'Alle felter skal udfyldes, og være i korrekt format';
+            $successMsg = 'Alle felter skal udfyldes, og være i korrekt format.';
         }
     }
 
